@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>古風動畫集・土地受餓／自污救人</title>
+<!-- 字體：fontsource CDN -->
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/ma-shan-zheng@5/index.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-tc@5/index.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5/index.css" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f1e3; --paper2:#efe5cd; --ink:#33281a; --ink-soft:#6b5a3a;
+  --gold:#b8933f; --gold-dim:#9a7a3a; --line:#d8c8a2;
+  --vermilion:#b03a28; --ctrlH:64px;
+  --rollerW:30px;
+}
+@media (max-width:760px){ :root{--ctrlH:112px; --rollerW:18px} }
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:radial-gradient(1200px 700px at 50% 30%, #fdfaf1, #efe4cd);
+  font-family:'Noto Serif TC','Noto Serif SC',serif;
+  color:var(--ink); overflow:hidden; display:flex; flex-direction:column;
+}
+header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 22px; background:linear-gradient(#fbf7ec,#f1e8d4);
+  border-bottom:1px solid var(--line); flex:0 0 auto; z-index:30;
+  box-shadow:0 4px 14px rgba(120,90,40,.08);
+}
+.brand{display:flex; align-items:center; gap:12px}
+.brand .seal{
+  width:34px;height:34px;border-radius:6px;background:var(--vermilion);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Ma Shan Zheng',serif;color:#fdf3dd;font-size:15px;line-height:1;
+  box-shadow:inset 0 0 6px rgba(0,0,0,.25), 0 2px 6px rgba(176,58,40,.35); writing-mode:vertical-rl;
+}
+.brand h1{font-family:'Ma Shan Zheng',serif;font-weight:400;font-size:22px;color:#3a2c18;letter-spacing:4px}
+.brand small{color:var(--gold-dim);font-size:12px;letter-spacing:2px}
+#progressWrap{position:absolute;left:0;right:0;top:0;height:3px;background:#e6d9ba;z-index:40}
+#progressBar{height:100%;width:0;background:linear-gradient(90deg,var(--gold-dim),#d9b45e);transition:width .8s ease}
+
+#stageWrap{flex:1 1 auto;display:flex;align-items:center;justify-content:center;padding:22px 18px;min-height:0}
+
+/* ============ 卷軸裝裱 ============ */
+.scrollWrap{
+  position:relative;
+  width:min(100%, calc((100vh - 265px) * 16 / 9 + var(--rollerW)*2 + 52px));
+}
+.mount{
+  margin:0 calc(var(--rollerW) + 8px);
+  padding:12px;border-radius:6px;
+  background:
+    repeating-linear-gradient(135deg, rgba(255,222,150,.09) 0 2px, transparent 2px 9px),
+    linear-gradient(#7c3322,#5e2416);
+  border:2px solid #c9a25a;
+  box-shadow:0 24px 60px rgba(110,80,35,.35), inset 0 0 0 3px rgba(255,225,160,.18);
+}
+#scrollTag{
+  position:absolute;left:calc(var(--rollerW) + 22px);top:26px;z-index:15;
+  writing-mode:vertical-rl;letter-spacing:6px;
+  font-family:'Ma Shan Zheng',serif;font-size:17px;color:#f6ead0;
+  background:linear-gradient(#8d3423,#6d2416);border:1px solid #d18a5e;
+  padding:14px 7px;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+/* 木軸 */
+.roller{
+  position:absolute;top:-16px;bottom:-16px;width:var(--rollerW);z-index:14;
+  border-radius:calc(var(--rollerW)/2);
+  background:linear-gradient(90deg,#4e3018,#93643a 42%,#3a2412 90%);
+  box-shadow:2px 4px 12px rgba(70,45,15,.45), inset 0 0 4px rgba(255,220,160,.25);
+}
+.roller.left{left:0}
+.roller.right{right:0}
+.roller::before,.roller::after{
+  content:"";position:absolute;left:50%;transform:translateX(-50%);
+  width:calc(var(--rollerW)*.78);height:calc(var(--rollerW)*.78);border-radius:50%;
+  background:radial-gradient(circle at 35% 32%, #f0d07a, #9a7a34 68%, #5c431c);
+  box-shadow:0 3px 8px rgba(0,0,0,.4);
+}
+.roller::before{top:calc(var(--rollerW)*-.42)}
+.roller::after{bottom:calc(var(--rollerW)*-.42)}
+/* 展卷動畫 */
+.scrollWrap.unroll #stage{animation:unrollClip 1.7s cubic-bezier(.22,.8,.3,1) both}
+.scrollWrap.unroll .roller.left{animation:rollL 1.7s cubic-bezier(.22,.8,.3,1) both}
+.scrollWrap.unroll .roller.right{animation:rollR 1.7s cubic-bezier(.22,.8,.3,1) both}
+@keyframes unrollClip{from{clip-path:inset(-20px 49.8% -20px 49.8%)}to{clip-path:inset(-20px 0 -20px 0)}}
+@keyframes rollL{from{left:calc(50% - var(--rollerW)/2)}to{left:0}}
+@keyframes rollR{from{right:calc(50% - var(--rollerW)/2)}to{right:0}}
+
+#stage{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:var(--paper2);border:1px solid #c9b17e;border-radius:4px;overflow:hidden;
+  box-shadow:inset 0 0 0 5px rgba(201,162,75,.14);
+}
+.art{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;pointer-events:none}
+.art.on{opacity:1}
+.art svg{width:100%;height:100%;display:block;animation:breathe 22s ease-in-out infinite alternate}
+@keyframes breathe{from{transform:scale(1)}to{transform:scale(1.06)}}
+#vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at center, transparent 58%, rgba(70,55,25,.26) 100%);}
+#grain{position:absolute;inset:0;pointer-events:none;opacity:.45;mix-blend-mode:multiply;
+  background-image:repeating-conic-gradient(rgba(120,95,50,.02) 0 .0005turn, transparent .0005turn .001turn);}
+
+#chapterChip{
+  position:absolute;top:16px;right:18px;z-index:8;
+  background:rgba(252,248,238,.88);border:1px solid #cdb57e;border-radius:999px;
+  padding:6px 16px;font-size:14px;letter-spacing:3px;color:#5a4326;backdrop-filter:blur(4px);
+  display:flex;gap:8px;align-items:center;box-shadow:0 3px 10px rgba(120,90,40,.18);
+}
+#chapterChip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--vermilion);box-shadow:0 0 8px rgba(176,58,40,.6)}
+
+#subs{
+  position:absolute;left:0;right:0;
+  bottom:calc(var(--ctrlH) + 40px);
+  z-index:9;padding:36px 6% 14px;text-align:center;pointer-events:none;
+  background:linear-gradient(rgba(250,246,236,0), rgba(250,246,236,.62) 35%, rgba(248,242,228,.92));
+}
+#origLine{font-size:clamp(12px,1.5vw,17px);color:var(--gold-dim);letter-spacing:2px;margin-bottom:8px;opacity:.95}
+#narrLine{font-size:clamp(15px,2.1vw,24px);color:#33281a;letter-spacing:1.5px;line-height:1.75;
+  text-shadow:0 1px 0 rgba(255,252,242,.7);max-width:88%;margin:0 auto}
+.subIn #origLine,.subIn #narrLine{animation:subUp .9s ease both}
+.subIn #narrLine{animation-delay:.15s}
+@keyframes subUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+body.noSubs #subs{display:none}
+
+#dots{position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(var(--ctrlH) + 12px);z-index:12;display:flex;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;background:#d9c99e;cursor:pointer;transition:.3s;border:1px solid #b9a678}
+.dot.on{background:var(--vermilion);box-shadow:0 0 8px rgba(176,58,40,.55);transform:scale(1.25)}
+
+#controls{position:absolute;left:0;right:0;bottom:0;z-index:11;
+  min-height:var(--ctrlH);
+  display:flex;align-items:center;justify-content:center;align-content:center;
+  gap:10px;padding:10px 12px;background:rgba(251,247,238,.94);border-top:1px solid var(--line);
+  backdrop-filter:blur(6px);flex-wrap:wrap}
+.btn{
+  font-family:'Noto Serif TC',serif;background:#fbf6ea;color:#5a4a2c;border:1px solid #cbb88c;
+  border-radius:8px;padding:7px 14px;font-size:14px;letter-spacing:2px;cursor:pointer;transition:.25s;
+  box-shadow:0 2px 6px rgba(120,90,40,.1);
+}
+.btn:hover{background:#f5ecd6;border-color:var(--gold);color:#3a2c18;transform:translateY(-1px);
+  box-shadow:0 4px 10px rgba(120,90,40,.18)}
+.btn.primary{background:linear-gradient(#c14a32,#9c3222);border-color:#d16a4e;color:#fff3e0;min-width:88px;
+  box-shadow:0 4px 12px rgba(176,58,40,.3)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.tog.on{background:#f3e6c2;border-color:var(--gold);color:#6b4f1c}
+.btn.tog:not(.on){opacity:.45}
+.sep{width:1px;height:22px;background:#d3c298}
+
+/* 覆蓋層（明亮） */
+.overlay{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;
+  background:rgba(251,247,238,.88);backdrop-filter:blur(6px);opacity:1;transition:opacity .6s;overflow-y:auto}
+.overlay.hidden{opacity:0;pointer-events:none}
+.card{text-align:center;padding:40px 50px;max-width:640px}
+.card h2{font-family:'Ma Shan Zheng',serif;font-size:52px;color:#3a2c18;letter-spacing:14px;font-weight:400}
+.card .sub{color:var(--gold-dim);letter-spacing:5px;margin:10px 0 26px;font-size:15px}
+.card p{color:var(--ink-soft);line-height:2;font-size:14px;letter-spacing:1px}
+.bigPlay{
+  margin-top:28px;font-family:'Ma Shan Zheng',serif;font-size:24px;letter-spacing:8px;
+  background:linear-gradient(#c14a32,#9c3222);color:#fff3e0;border:1px solid #d16a4e;
+  border-radius:999px;padding:14px 46px;cursor:pointer;transition:.3s;box-shadow:0 8px 26px rgba(176,58,40,.3);
+}
+.bigPlay:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 36px rgba(176,58,40,.42)}
+.endBtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+
+/* 選篇畫面 */
+.pickWrap{text-align:center;max-width:920px;padding:28px 20px;margin:auto}
+.pickTitle{font-family:'Ma Shan Zheng',serif;font-size:46px;color:#3a2c18;letter-spacing:12px;font-weight:400}
+.pickSub{color:var(--gold-dim);margin:10px 0 28px;letter-spacing:4px;font-size:14px}
+.pickCards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.pickCard{
+  width:350px;background:linear-gradient(#fffdf6,#f6efdc);border:1px solid #d8c49a;border-radius:12px;
+  padding:28px 26px;text-align:left;transition:.3s;display:flex;flex-direction:column;
+  box-shadow:0 8px 22px rgba(120,90,40,.12);
+}
+.pickCard:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 16px 34px rgba(120,90,40,.2)}
+.pickCard h3{font-family:'Ma Shan Zheng',serif;font-size:36px;color:#3a2c18;letter-spacing:6px;font-weight:400}
+.pickCard .src{color:var(--gold-dim);font-size:13px;letter-spacing:2px;margin:6px 0 14px}
+.pickCard p{color:var(--ink-soft);font-size:13.5px;line-height:2;margin-bottom:18px;flex:1}
+.pickCard button{
+  font-family:'Ma Shan Zheng',serif;font-size:19px;letter-spacing:6px;width:100%;
+  background:linear-gradient(#c14a32,#9c3222);color:#fff3e0;border:1px solid #d16a4e;
+  border-radius:999px;padding:11px 0;cursor:pointer;transition:.3s;box-shadow:0 6px 16px rgba(176,58,40,.25);
+}
+.pickCard button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+
+/* 文本 modal */
+#modal{position:absolute;inset:0;z-index:25;background:rgba(240,232,212,.88);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:30px}
+#modal.show{display:flex}
+#modalBox{background:linear-gradient(#f6efd9,#ece0bf);color:#33291a;border-radius:12px;max-width:760px;width:100%;
+  max-height:88%;overflow-y:auto;padding:34px 40px;border:6px solid #b89a5e;box-shadow:0 30px 80px rgba(120,90,40,.35)}
+#modalBox h3{font-family:'Ma Shan Zheng',serif;font-size:30px;color:#8d3423;letter-spacing:6px;margin-bottom:6px;font-weight:400}
+#modalBox h4{margin:20px 0 8px;color:#5d4a22;letter-spacing:3px;border-left:4px solid var(--vermilion);padding-left:10px;font-size:16px}
+#modalBox p,#modalBox div{font-size:14.5px;line-height:2.05;letter-spacing:.5px;color:#3c3120;text-align:justify}
+#modalBox .closeRow{text-align:center;margin-top:22px}
+#modalBox button{font-family:'Noto Serif TC',serif;background:#9c3222;color:#fff3e0;border:none;border-radius:8px;
+  padding:9px 30px;font-size:14px;letter-spacing:3px;cursor:pointer}
+@media (max-width:760px){
+  .card h2{font-size:38px;letter-spacing:8px}
+  .pickTitle{font-size:32px;letter-spacing:6px}
+  #subs{padding-top:24px}
+  #scrollTag{display:none}
+}
+</style>
+</head>
+<body>
+<div id="progressWrap"><div id="progressBar"></div></div>
+<header>
+  <div class="brand">
+    <div class="seal">古風</div>
+    <div>
+      <h1 id="hdTitle">古風動畫集</h1>
+      <small id="hdSub">清代筆記・動畫說書</small>
+    </div>
+  </div>
+  <div style="font-size:12px;color:#9a7a3a;letter-spacing:2px">水墨插畫・合成古琴配樂・語音旁白・全文字幕</div>
+</header>
+
+<div id="stageWrap">
+  <div class="scrollWrap unroll" id="scrollWrap">
+    <div class="roller left"></div>
+    <div id="scrollTag">古風動畫集</div>
+    <div class="mount">
+      <div id="stage">
+        <div class="art" id="artA"></div>
+        <div class="art" id="artB"></div>
+        <div id="vignette"></div><div id="grain"></div>
+        <div id="chapterChip">序幕</div>
+        <div id="subs" class="subIn"><div id="origLine"></div><div id="narrLine"></div></div>
+        <div id="dots"></div>
+        <div id="controls">
+          <button class="btn" id="btnPrev">⏮ 上一幕</button>
+          <button class="btn primary" id="btnPlay">▶ 播放</button>
+          <button class="btn" id="btnNext">下一幕 ⏭</button>
+          <div class="sep"></div>
+          <button class="btn" id="btnPickCtl">⏏ 選篇</button>
+          <div class="sep"></div>
+          <button class="btn tog on" id="btnMusic">樂</button>
+          <button class="btn tog on" id="btnVoice">聲</button>
+          <button class="btn tog on" id="btnSubs">字</button>
+          <div class="sep"></div>
+          <button class="btn" id="btnText">📜 文本</button>
+        </div>
+
+        <!-- 選篇畫面（開頭） -->
+        <div class="overlay" id="pickOverlay">
+          <div class="pickWrap">
+            <div class="pickTitle">古風動畫集</div>
+            <div class="pickSub">清代筆記小說・水墨動畫說書・請擇篇觀賞</div>
+            <div class="pickCards">
+              <div class="pickCard">
+                <h3>土地受餓</h3>
+                <div class="src">清・袁枚《子不語》</div>
+                <p>杭州書生張望齡病中見故鬼來訪，揭出一位操守清廉、終年挨餓的土地神。鬼界香火冷暖，正是人間官場縮影。</p>
+                <button data-pick="0">開始觀賞</button>
+              </div>
+              <div class="pickCard">
+                <h3>自污救人</h3>
+                <div class="src">清・紀昀《閱微草堂筆記》</div>
+                <p>農夫守瓜田，夜聞鬼語。村嫗為救蒙冤婢女，甘冒盜名自污認罪——一念之仁，感動冥籍，其子獲延壽養母。</p>
+                <button data-pick="1">開始觀賞</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay hidden" id="endOverlay">
+          <div class="card">
+            <h2>終</h2>
+            <div class="sub" id="endQuote"></div>
+            <p id="endPoem"></p>
+            <button class="bigPlay" id="btnReplay">重新觀賞</button>
+            <div class="endBtns">
+              <button class="btn" id="btnPickEnd">⏏ 返回選篇</button>
+              <button class="btn" id="btnText2">📜 閱讀原文與賞析</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="modal">
+          <div id="modalBox">
+            <h3 id="mTitle"></h3>
+            <h4>原文</h4>
+            <div id="mOrig"></div>
+            <h4>白話譯文</h4>
+            <div id="mTrans"></div>
+            <h4>作品介紹與賞析</h4>
+            <div id="mIntro"></div>
+            <div class="closeRow"><button id="btnCloseModal">掩卷</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="roller right"></div>
+  </div>
+</div>
+
+<script>
+/* ================= 場景插畫：土地受餓 ================= */
+const SVG_OPEN = '<svg viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">';
+const ART1 = [
+SVG_OPEN+`
+<defs>
+<radialGradient id="g0" cx="50%" cy="30%" r="85%"><stop offset="0%" stop-color="#f4ead2"/><stop offset="65%" stop-color="#e3d4ae"/><stop offset="100%" stop-color="#c8b587"/></radialGradient>
+<filter id="f0" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+<filter id="f0s" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g0)"/>
+<circle cx="935" cy="140" r="56" fill="#f8efd6" opacity=".95"/>
+<circle cx="935" cy="140" r="72" fill="none" stroke="#dcc9a0" stroke-width="2" opacity=".6"/>
+<path d="M700 200 q10 -10 20 0 q10 -10 20 0" stroke="#3a352c" fill="none" stroke-width="3" stroke-linecap="round" opacity=".65"/>
+<path d="M760 178 q8 -8 16 0 q8 -8 16 0" stroke="#3a352c" fill="none" stroke-width="2.4" stroke-linecap="round" opacity=".5"/>
+<path d="M0 470 Q140 350 260 460 Q360 545 470 470 Q560 405 660 480 T900 470 T1200 450 V675 H0 Z" fill="#4a4234" opacity=".3" filter="url(#f0)"/>
+<path d="M0 545 Q180 445 330 535 Q470 615 640 545 Q800 480 940 560 T1200 540 V675 H0 Z" fill="#34302a" opacity=".42" filter="url(#f0)"/>
+<path d="M0 612 Q220 542 420 606 T820 616 T1200 602 V675 H0 Z" fill="#221f1a" opacity=".55" filter="url(#f0s)"/>
+<ellipse cx="300" cy="512" rx="270" ry="30" fill="#f0e5c9" opacity=".55" filter="url(#f0)"><animate attributeName="cx" values="300;370;300" dur="15s" repeatCount="indefinite"/></ellipse>
+<ellipse cx="870" cy="462" rx="230" ry="24" fill="#f0e5c9" opacity=".45" filter="url(#f0)"><animate attributeName="cx" values="870;800;870" dur="19s" repeatCount="indefinite"/></ellipse>
+<text x="600" y="292" text-anchor="middle" font-size="130" fill="#26221b" style="font-family:'Ma Shan Zheng',serif" letter-spacing="20">土地受餓</text>
+<text x="600" y="352" text-anchor="middle" font-size="25" fill="#5a4f3c" letter-spacing="8">清・袁枚《子不語》</text>
+<g transform="translate(760,344)"><rect x="-25" y="-22" width="50" height="44" rx="6" fill="#a33327" opacity=".92"/><text y="8" text-anchor="middle" font-size="20" fill="#f6ead0" style="font-family:'Ma Shan Zheng',serif">隨園</text></g>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#181d28"/><stop offset=".6" stop-color="#1d2434"/><stop offset="1" stop-color="#131109"/></linearGradient>
+<filter id="f1" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g1)"/>
+<rect y="560" width="1200" height="115" fill="#0e0c08"/>
+<g transform="translate(830,90)">
+<rect x="-14" y="-14" width="268" height="238" fill="#20283a" stroke="#0b0d13" stroke-width="10"/>
+<circle cx="120" cy="105" r="50" fill="#e9e2c8" opacity=".92"/>
+<circle cx="120" cy="105" r="62" fill="#e9e2c8" opacity=".14" filter="url(#f1)"/>
+<path d="M0 70 H240 M0 140 H240 M80 0 V210 M160 0 V210" stroke="#0b0d13" stroke-width="6"/>
+</g>
+<g transform="translate(110,300)">
+<rect x="0" y="-30" width="26" height="260" fill="#241d15"/>
+<rect x="500" y="60" width="22" height="170" fill="#241d15"/>
+<rect x="18" y="150" width="490" height="46" rx="10" fill="#2e2620"/>
+<path d="M40 152 Q120 96 220 118 Q330 140 420 128 Q462 122 494 152 Z" fill="#463b2c"/>
+<path d="M40 152 Q120 96 220 118" stroke="#5c4e38" stroke-width="4" fill="none" opacity=".7"/>
+<ellipse cx="74" cy="140" rx="46" ry="18" fill="#cbb98d"/>
+<circle cx="82" cy="130" r="21" fill="#d8c49a"/>
+<path d="M70 128 q12 8 24 0" stroke="#8a6f4a" stroke-width="3" fill="none"/>
+<circle cx="82" cy="128" r="34" fill="#c0452e" opacity=".16" filter="url(#f1)"><animate attributeName="opacity" values=".16;.3;.16" dur="2.4s" repeatCount="indefinite"/></circle>
+</g>
+<g transform="translate(640,318)">
+<rect x="-7" y="0" width="14" height="62" fill="#e8dcc0"/>
+<path d="M0 -16 q9 13 0 24 q-9 -11 0 -24" fill="#f5b942"><animate attributeName="opacity" values="1;.65;1;.8;1" dur="1.1s" repeatCount="indefinite"/></path>
+<circle cy="-4" r="34" fill="#f5b942" opacity=".13" filter="url(#f1)"/>
+</g>
+<rect x="596" y="380" width="130" height="14" fill="#241d15"/>
+<rect x="608" y="394" width="12" height="70" fill="#1c160f"/><rect x="702" y="394" width="12" height="70" fill="#1c160f"/>
+<g transform="translate(430,430)">
+<path d="M-46 0 Q0 34 46 0 L36 26 Q0 44 -36 26 Z" fill="#3a3128"/>
+<path d="M-6 -8 q10 -22 0 -40" stroke="#9aa3ad" stroke-width="3.4" fill="none" opacity=".5"><animate attributeName="opacity" values=".5;.15;.5" dur="3s" repeatCount="indefinite"/></path>
+<path d="M10 -6 q10 -20 2 -38" stroke="#9aa3ad" stroke-width="3" fill="none" opacity=".4"><animate attributeName="opacity" values=".4;.1;.4" dur="3.6s" repeatCount="indefinite"/></path>
+</g>
+<ellipse cx="600" cy="640" rx="520" ry="26" fill="#000" opacity=".4"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e141d"/><stop offset=".55" stop-color="#1a2432"/><stop offset="1" stop-color="#0b0e13"/></linearGradient>
+<filter id="f2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g2)"/>
+<circle cx="220" cy="120" r="46" fill="#dfe4dc" opacity=".85"/>
+<circle cx="220" cy="120" r="64" fill="#dfe4dc" opacity=".12" filter="url(#f2)"/>
+<path d="M0 600 Q300 560 600 588 T1200 580 V675 H0 Z" fill="#0a0d12"/>
+<path d="M420 675 L560 430 L760 430 L980 675 Z" fill="#131a24" opacity=".8"/>
+<g transform="translate(700,215)">
+  <animateTransform attributeName="transform" type="rotate" values="-3 700 400;3 700 400;-3 700 400" dur="5s" repeatCount="indefinite" additive="sum"/>
+  <circle cx="0" cy="30" r="34" fill="#cfd6d4" opacity=".95"/>
+  <path d="M-34 18 Q0 -14 34 18 L28 6 Q0 -6 -28 6 Z" fill="#11151b"/>
+  <path d="M-14 26 q6 5 12 0 M4 26 q6 5 12 0" stroke="#5c6b6e" stroke-width="3" fill="none"/>
+  <path d="M-30 62 Q-50 160 -66 268 L-30 246 L-12 278 L6 248 L26 280 L42 250 L60 272 Q50 158 32 64 Q0 46 -30 62 Z" fill="#232b33" opacity=".96"/>
+  <path d="M-30 90 Q-66 130 -84 176" stroke="#232b33" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <path d="M32 90 Q70 126 92 170" stroke="#232b33" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <circle cx="-88" cy="182" r="11" fill="#cfd6d4" opacity=".9"/><circle cx="98" cy="176" r="11" fill="#cfd6d4" opacity=".9"/>
+</g>
+<ellipse cx="620" cy="600" rx="420" ry="34" fill="#aebbc4" opacity=".1" filter="url(#f2)"><animate attributeName="cx" values="620;560;620" dur="11s" repeatCount="indefinite"/></ellipse>
+<ellipse cx="300" cy="530" rx="260" ry="26" fill="#aebbc4" opacity=".09" filter="url(#f2)"><animate attributeName="cx" values="300;380;300" dur="14s" repeatCount="indefinite"/></ellipse>
+<path d="M900 180 q-14 10 -8 26" stroke="#4a5a52" stroke-width="3" fill="none" opacity=".6"><animateTransform attributeName="transform" type="translate" values="0 0;-40 60;-80 130" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values=".6;.3;0" dur="7s" repeatCount="indefinite"/></path>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<radialGradient id="g3b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#e8c56a" stop-opacity=".55"/><stop offset="100%" stop-color="#e8c56a" stop-opacity="0"/></radialGradient>
+<filter id="f3" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="#141821"/>
+<ellipse cx="430" cy="360" rx="330" ry="300" fill="url(#g3b)"><animate attributeName="opacity" values=".8;1;.8" dur="4s" repeatCount="indefinite"/></ellipse>
+<g transform="translate(430,230)">
+<circle cx="0" cy="34" r="36" fill="#d8dedb"/>
+<path d="M-36 22 Q0 -12 36 22 L30 8 Q0 -2 -30 8 Z" fill="#14181e"/>
+<path d="M-16 30 q7 5 14 0 M6 30 q7 5 14 0" stroke="#5c6b6e" stroke-width="3" fill="none"/>
+<path d="M-2 46 q4 6 0 10" stroke="#5c6b6e" stroke-width="2.6" fill="none"/>
+<path d="M-34 70 Q-44 180 -52 300 L52 300 Q44 180 34 70 Q0 54 -34 70 Z" fill="#26303a"/>
+<path d="M-34 100 Q-70 140 -60 190 Q-30 200 -6 176" stroke="#26303a" stroke-width="20" fill="none" stroke-linecap="round"/>
+<path d="M34 100 Q70 140 60 190 Q30 200 6 176" stroke="#26303a" stroke-width="20" fill="none" stroke-linecap="round"/>
+<circle cx="0" cy="172" r="14" fill="#d8dedb"/>
+</g>
+<g transform="translate(430,120)">
+<rect x="-120" y="-30" width="240" height="60" rx="8" fill="#2b2417" stroke="#c9a24b" stroke-width="2"/>
+<text text-anchor="middle" y="12" font-size="34" fill="#e8c56a" style="font-family:'Ma Shan Zheng',serif" letter-spacing="8">益壽一紀</text>
+<animateTransform attributeName="transform" type="translate" values="430 120;430 112;430 120" dur="4s" repeatCount="indefinite"/>
+</g>
+<g transform="translate(940,190)">
+<circle r="150" fill="#dfe8ea" opacity=".1" filter="url(#f3)"/>
+<circle r="128" fill="#1c2733" stroke="#c9a24b" stroke-width="3" opacity=".96"/>
+<path d="M-128 40 Q-60 20 0 40 T128 40 V128 H-128 Z" fill="#2a4356"/>
+<path d="M-100 52 q20 -8 40 0 M-20 66 q20 -8 40 0 M50 52 q20 -8 40 0" stroke="#9fc3d4" stroke-width="4" fill="none" opacity=".7"/>
+<g transform="translate(-38,-8)"><circle cx="0" cy="-26" r="13" fill="#d8c49a"/><path d="M-14 -12 Q-20 30 -16 58 L16 58 Q20 30 14 -12 Q0 -18 -14 -12 Z" fill="#5a4632"/></g>
+<g transform="translate(42,16)"><circle cx="0" cy="-14" r="12" fill="#d8c49a"/><path d="M-12 -2 Q-30 8 -44 -2" stroke="#5a6c50" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M-12 -2 Q-14 26 -8 44 L14 40 Q16 16 12 -2 Q0 -8 -12 -2 Z" fill="#5a6c50"/></g>
+<path d="M-24 -22 L28 8" stroke="#d8c49a" stroke-width="7" stroke-linecap="round"/>
+<text y="166" text-anchor="middle" font-size="20" fill="#c9a24b" letter-spacing="4">幼年救一女</text>
+</g>
+<rect y="600" width="1200" height="75" fill="#0c0e12"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="g4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#100f14"/><stop offset="1" stop-color="#1c1a20"/></linearGradient>
+<filter id="f4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g4)"/>
+<g opacity=".85"><animate attributeName="opacity" values=".85;.55;.85" dur="1.4s" repeatCount="indefinite"/>
+<path d="M180 300 L230 260 M180 260 L230 300 M160 340 L250 340" stroke="#a33327" stroke-width="6" stroke-linecap="round"/></g>
+<g transform="translate(300,240)">
+<path d="M-60 60 Q-110 140 -90 240 L-40 210 L-20 250 L10 214 L40 252 L70 216 Q100 130 54 58 Q0 30 -60 60 Z" fill="#0d0d10"/>
+<path d="M-58 58 Q0 6 56 56 Q30 90 0 92 Q-30 90 -58 58 Z" fill="#15151a"/>
+<circle cx="-18" cy="52" r="7" fill="#e05a3a"><animate attributeName="opacity" values="1;.4;1" dur="1s" repeatCount="indefinite"/></circle>
+<circle cx="20" cy="52" r="7" fill="#e05a3a"><animate attributeName="opacity" values="1;.4;1" dur="1s" repeatCount="indefinite"/></circle>
+<path d="M52 80 Q110 40 150 -10" stroke="#0d0d10" stroke-width="22" fill="none" stroke-linecap="round"/>
+<rect x="130" y="-70" width="26" height="90" rx="10" fill="#2c2418" transform="rotate(32 143 -25)"/>
+</g>
+<g transform="translate(600,300)">
+<circle cx="0" cy="0" r="26" fill="#d8d2c6"/>
+<path d="M-26 -8 Q0 -34 26 -8 L20 -18 Q0 -26 -20 -18 Z" fill="#1a1d22"/>
+<path d="M-12 -4 q5 -4 10 0 M4 -4 q5 -4 10 0" stroke="#6b7280" stroke-width="2.6" fill="none"/>
+<path d="M-22 24 Q-40 110 -34 200 L34 200 Q40 110 22 24 Q0 14 -22 24 Z" fill="#3c4450"/>
+<path d="M-20 60 Q-34 90 -26 120 M20 60 Q34 90 26 120" stroke="#2b303a" stroke-width="8" fill="none" stroke-linecap="round"/>
+</g>
+<g transform="translate(900,220)">
+<rect x="-34" y="-46" width="68" height="20" rx="4" fill="#11151b"/>
+<circle cx="0" cy="0" r="34" fill="#d8dedb"/>
+<path d="M-16 -4 q6 5 12 0 M6 -4 q6 5 12 0" stroke="#4b5a5e" stroke-width="3" fill="none"/>
+<path d="M-8 14 q8 6 16 0" stroke="#4b5a5e" stroke-width="3" fill="none"/>
+<path d="M-32 40 Q-46 170 -54 320 L54 320 Q46 170 32 40 Q0 24 -32 40 Z" fill="#2c3a34"/>
+<path d="M-32 70 Q-80 90 -110 70" stroke="#2c3a34" stroke-width="20" fill="none" stroke-linecap="round"/>
+<path d="M-118 64 l-26 -14 M-118 70 l-28 2 M-116 76 l-24 16" stroke="#c9a24b" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+<rect x="-58" y="120" width="116" height="26" rx="4" fill="#1c2420" stroke="#c9a24b" stroke-width="1.6"/>
+<text y="139" text-anchor="middle" font-size="17" fill="#c9a24b" letter-spacing="4">土地正神</text>
+</g>
+<ellipse cx="600" cy="640" rx="560" ry="26" fill="#000" opacity=".5"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="g5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#20180f"/><stop offset="1" stop-color="#14100a"/></linearGradient>
+<radialGradient id="g5b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd76a" stop-opacity=".7"/><stop offset="100%" stop-color="#ffd76a" stop-opacity="0"/></radialGradient>
+<filter id="f5" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g5)"/>
+<circle cx="600" cy="120" r="90" fill="#f5b942" opacity=".1" filter="url(#f5)"/>
+<g transform="translate(340,230)">
+<circle cx="0" cy="30" r="34" fill="#cfd6d4"/>
+<path d="M-34 18 Q0 -14 34 18 L28 6 Q0 -6 -28 6 Z" fill="#14181e"/>
+<path d="M-14 26 q6 5 12 0 M4 26 q6 5 12 0" stroke="#5c6b6e" stroke-width="3" fill="none"/>
+<path d="M-6 44 q4 4 8 2" stroke="#5c6b6e" stroke-width="2.4" fill="none"/>
+<path d="M-32 66 Q-46 190 -52 330 L52 330 Q46 190 32 66 Q0 50 -32 66 Z" fill="#232b33" opacity=".96"/>
+<path d="M-20 130 l14 8 M8 170 l16 6 M-26 220 l14 8" stroke="#3a4652" stroke-width="4" stroke-linecap="round"/>
+<path d="M30 96 Q86 110 130 96" stroke="#232b33" stroke-width="20" fill="none" stroke-linecap="round"/>
+<g transform="translate(150,86)">
+<path d="M0 -26 Q6 -12 18 -12 L34 -12 Q40 4 28 8 L-28 8 Q-40 4 -34 -12 L-18 -12 Q-6 -12 0 -26 Z" fill="#e8b23a" stroke="#b98a1e" stroke-width="2"/>
+<path d="M-20 0 Q0 -8 20 0" stroke="#ffe08a" stroke-width="3" fill="none"/>
+</g>
+<path d="M132 52 q26 -16 52 0 M126 38 q32 -22 64 0" stroke="#e8b23a" stroke-width="3" fill="none" opacity=".8"><animate attributeName="opacity" values=".8;.3;.8" dur="1.6s" repeatCount="indefinite"/></path>
+</g>
+<g transform="translate(840,220)">
+<circle cx="0" cy="34" r="34" fill="#cfd6d4"/>
+<path d="M-34 22 Q0 -12 34 22 L28 8 Q0 -2 -28 8 Z" fill="#11151b"/>
+<path d="M-14 30 q6 5 12 0 M4 30 q6 5 12 0" stroke="#5c6b6e" stroke-width="3" fill="none"/>
+<path d="M-8 48 q4 5 10 4" stroke="#5c6b6e" stroke-width="2.4" fill="none"/>
+<path d="M-32 70 Q-46 200 -52 340 L52 340 Q46 200 32 70 Q0 54 -32 70 Z" fill="#2c3a34"/>
+<path d="M-30 100 Q-86 120 -110 92" stroke="#2c3a34" stroke-width="20" fill="none" stroke-linecap="round"/>
+<circle cx="-118" cy="86" r="11" fill="#cfd6d4"/>
+<path d="M-140 60 q-14 -6 -20 -18 M-142 84 q-16 0 -24 -8 M-138 106 q-14 6 -24 0" stroke="#8fa0a8" stroke-width="3" fill="none" opacity=".8"><animate attributeName="opacity" values=".8;.3;.8" dur="1.8s" repeatCount="indefinite"/></path>
+</g>
+<rect y="600" width="1200" height="75" fill="#0c0a06"/>
+<ellipse cx="600" cy="606" rx="420" ry="18" fill="#f5b942" opacity=".06" filter="url(#f5)"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="g6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101720"/><stop offset="1" stop-color="#0a0d12"/></linearGradient>
+<filter id="f6" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g6)"/>
+<path d="M80 140 q80 -20 160 0 M120 180 q70 -16 140 0" stroke="#5a707c" stroke-width="3" fill="none" opacity=".4"><animateTransform attributeName="transform" type="translate" values="0 0;40 0;0 0" dur="6s" repeatCount="indefinite"/></path>
+<g transform="translate(600,250)">
+<path d="M-260 60 L0 -70 L260 60 Z" fill="#232a33"/>
+<path d="M-290 60 Q-160 30 -120 60 M290 60 Q160 30 120 60" stroke="#232a33" stroke-width="16" fill="none"/>
+<path d="M-300 62 Q0 96 300 62" stroke="#161b22" stroke-width="14" fill="none"/>
+<rect x="-190" y="60" width="380" height="210" fill="#1a2028"/>
+<rect x="-60" y="110" width="120" height="160" fill="#0d1015"/>
+<path d="M-60 110 L-78 268 M60 110 L74 268" stroke="#2c3540" stroke-width="6"/>
+<path d="M-190 96 l10 40 M-120 96 l-6 44 M150 96 l8 40" stroke="#11151b" stroke-width="5"/>
+<rect x="-44" y="70" width="88" height="30" rx="4" fill="#241f18" stroke="#3a332a" stroke-width="2"/>
+<text y="92" text-anchor="middle" font-size="20" fill="#6e6250" letter-spacing="6">土地廟</text>
+<path d="M-240 270 L240 270 L270 300 L-270 300 Z" fill="#12161d"/>
+</g>
+<g transform="translate(880,430)">
+<circle cx="0" cy="0" r="26" fill="#b9c2c0"/>
+<path d="M-26 -8 Q0 -30 26 -8 L20 -18 Q0 -24 -20 -18 Z" fill="#11151b"/>
+<path d="M-12 -2 q5 4 10 0 M4 -2 q5 4 10 0" stroke="#4b5a5e" stroke-width="2.6" fill="none"/>
+<path d="M-6 12 q6 3 10 -1" stroke="#4b5a5e" stroke-width="2.4" fill="none"/>
+<path d="M-20 22 Q-30 90 -26 150 L26 150 Q30 90 20 22 Q0 14 -20 22 Z" fill="#232b33"/>
+<path d="M-14 60 l10 6 M2 84 l12 6 M-16 108 l10 6" stroke="#39434e" stroke-width="3" stroke-linecap="round"/>
+<path d="M18 50 Q44 66 40 92" stroke="#232b33" stroke-width="12" fill="none" stroke-linecap="round"/>
+<ellipse cx="44" cy="102" rx="26" ry="9" fill="#2c3138"/>
+<path d="M18 102 Q44 128 70 102" stroke="#2c3138" stroke-width="4" fill="none"/>
+</g>
+<g transform="translate(300,560)">
+<path d="M-40 0 Q0 22 40 0 L30 18 Q0 30 -30 18 Z" fill="#2a2f36" transform="rotate(18)"/>
+</g>
+<path d="M180 520 l60 -8 M200 545 l52 -6" stroke="#3a4a54" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+<rect y="610" width="1200" height="65" fill="#080a0e"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="g7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1c10"/><stop offset="1" stop-color="#160f08"/></linearGradient>
+<radialGradient id="g7b" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#f5b942" stop-opacity=".22"/><stop offset="100%" stop-color="#f5b942" stop-opacity="0"/></radialGradient>
+<filter id="f7" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g7)"/>
+<rect width="1200" height="675" fill="url(#g7b)"/>
+<g transform="translate(600,120)"><rect x="-300" y="-30" width="600" height="46" rx="6" fill="#7d2c1f"/><text y="4" text-anchor="middle" font-size="30" fill="#f0d8a8" letter-spacing="10" style="font-family:'Ma Shan Zheng',serif">誠 心 祭 賽</text></g>
+<g transform="translate(600,330)">
+<rect x="-300" y="0" width="600" height="34" rx="6" fill="#6e4a24"/>
+<rect x="-310" y="-16" width="620" height="20" rx="6" fill="#8a5c2e"/>
+<rect x="-270" y="34" width="30" height="150" fill="#4a3016"/><rect x="240" y="34" width="30" height="150" fill="#4a3016"/>
+<rect x="-300" y="-16" width="600" height="8" fill="#a33327"/>
+<ellipse cx="-130" cy="-34" rx="86" ry="20" fill="#3a2c18"/>
+<ellipse cx="-130" cy="-44" rx="70" ry="26" fill="#c98a4b"/>
+<circle cx="-186" cy="-52" r="17" fill="#c98a4b"/>
+<path d="M-196 -62 q-8 -10 -2 -16 M-180 -66 q2 -12 10 -12" stroke="#c98a4b" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M-160 -56 q30 -12 60 0" stroke="#a86a30" stroke-width="3" fill="none"/>
+<ellipse cx="60" cy="-30" rx="60" ry="16" fill="#3a2c18"/>
+<circle cx="36" cy="-44" r="15" fill="#c94a2e"/><circle cx="66" cy="-48" r="15" fill="#e8a23a"/><circle cx="90" cy="-40" r="13" fill="#7a8a3a"/>
+<g transform="translate(190,-40)">
+<rect x="-26" y="-6" width="52" height="26" rx="6" fill="#4a3a24"/>
+<path d="M-12 -6 V-58 M0 -6 V-66 M12 -6 V-54" stroke="#8a6a3a" stroke-width="4"/>
+<circle cx="-12" cy="-62" r="3.4" fill="#e05a3a"/><circle cx="0" cy="-70" r="3.4" fill="#e05a3a"/><circle cx="12" cy="-58" r="3.4" fill="#e05a3a"/>
+<path d="M-12 -66 q-8 -26 2 -48" stroke="#cfc4a8" stroke-width="3.4" fill="none" opacity=".55"><animate attributeName="opacity" values=".55;.2;.55" dur="3.4s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -14;0 0" dur="3.4s" repeatCount="indefinite"/></path>
+<path d="M0 -74 q10 -28 0 -52" stroke="#cfc4a8" stroke-width="3.6" fill="none" opacity=".6"><animate attributeName="opacity" values=".6;.25;.6" dur="4s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -18;0 0" dur="4s" repeatCount="indefinite"/></path>
+<path d="M12 -62 q12 -24 4 -44" stroke="#cfc4a8" stroke-width="3" fill="none" opacity=".5"><animate attributeName="opacity" values=".5;.15;.5" dur="3s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -12;0 0" dur="3s" repeatCount="indefinite"/></path>
+</g>
+</g>
+<g transform="translate(250,470)">
+<rect x="-8" y="-70" width="16" height="70" fill="#e8dcc0"/>
+<path d="M0 -86 q9 13 0 24 q-9 -11 0 -24" fill="#f5b942"><animate attributeName="opacity" values="1;.6;1;.8;1" dur="1.2s" repeatCount="indefinite"/></path>
+<circle cy="-76" r="26" fill="#f5b942" opacity=".16" filter="url(#f7)"/>
+</g>
+<g transform="translate(950,470)">
+<rect x="-8" y="-70" width="16" height="70" fill="#e8dcc0"/>
+<path d="M0 -86 q9 13 0 24 q-9 -11 0 -24" fill="#f5b942"><animate attributeName="opacity" values="1;.7;1;.85;1" dur="1s" repeatCount="indefinite"/></path>
+<circle cy="-76" r="26" fill="#f5b942" opacity=".16" filter="url(#f7)"/>
+</g>
+<g transform="translate(430,520)">
+<circle cx="0" cy="-56" r="24" fill="#d8c49a"/>
+<path d="M-24 -66 Q0 -88 24 -66 L18 -76 Q0 -82 -18 -76 Z" fill="#241f18"/>
+<path d="M-26 -30 Q-44 30 -30 96 L44 96 Q50 40 30 -18 Q0 -40 -26 -30 Z" fill="#4a3a28"/>
+<path d="M26 -8 Q60 20 78 60" stroke="#4a3a28" stroke-width="16" fill="none" stroke-linecap="round"/>
+</g>
+<rect y="620" width="1200" height="55" fill="#0e0a06"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<radialGradient id="g8" cx="50%" cy="46%" r="70%"><stop offset="0" stop-color="#2c2a24"/><stop offset="100%" stop-color="#141310"/></radialGradient>
+<radialGradient id="g8b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f0c86a" stop-opacity=".4"/><stop offset="100%" stop-color="#f0c86a" stop-opacity="0"/></radialGradient>
+<filter id="f8" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g8)"/>
+<circle cx="600" cy="330" r="300" fill="url(#g8b)"><animate attributeName="r" values="300;330;300" dur="5s" repeatCount="indefinite"/></circle>
+<circle cx="600" cy="330" r="252" fill="none" stroke="#c9a24b" stroke-width="1.6" opacity=".35" stroke-dasharray="4 10"><animateTransform attributeName="transform" type="rotate" values="0 600 330;360 600 330" dur="60s" repeatCount="indefinite"/></circle>
+<circle cx="600" cy="330" r="286" fill="none" stroke="#c9a24b" stroke-width="1.2" opacity=".2" stroke-dasharray="3 14"><animateTransform attributeName="transform" type="rotate" values="360 600 330;0 600 330" dur="80s" repeatCount="indefinite"/></circle>
+<g transform="translate(600,430)">
+<rect x="-190" y="0" width="380" height="26" rx="6" fill="#5a4020"/>
+<rect x="-160" y="26" width="24" height="90" fill="#3c2a14"/><rect x="136" y="26" width="24" height="90" fill="#3c2a14"/>
+<ellipse cx="0" cy="-16" rx="96" ry="26" fill="#7a8a94"/>
+<path d="M-96 -16 Q0 -70 96 -16" fill="#f0ead8"/>
+<path d="M-60 -34 q20 -12 40 0 M10 -40 q20 -12 40 0" stroke="#d8cdb2" stroke-width="5" fill="none"/>
+<path d="M-30 -50 q10 -26 0 -48" stroke="#e8e0c8" stroke-width="4" fill="none" opacity=".6"><animate attributeName="opacity" values=".6;.2;.6" dur="3s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -16;0 0" dur="3s" repeatCount="indefinite"/></path>
+<path d="M8 -56 q12 -28 2 -52" stroke="#e8e0c8" stroke-width="4" fill="none" opacity=".55"><animate attributeName="opacity" values=".55;.2;.55" dur="3.8s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -20;0 0" dur="3.8s" repeatCount="indefinite"/></path>
+<path d="M120 -26 L188 -70 M132 -16 L196 -62" stroke="#8a6a3a" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g transform="translate(600,190)">
+<circle cx="0" cy="0" r="40" fill="#d8dedb"/>
+<path d="M-40 -12 Q0 -50 40 -12 L32 -26 Q0 -36 -32 -26 Z" fill="#14181e"/>
+<path d="M-18 -2 q7 -7 14 0 M6 -2 q7 -7 14 0" stroke="#4b5a5e" stroke-width="3.4" fill="none"/>
+<circle cx="-24" cy="10" r="6" fill="#d4a08a" opacity=".55"/><circle cx="24" cy="10" r="6" fill="#d4a08a" opacity=".55"/>
+<path d="M-10 18 q10 9 20 0" stroke="#4b5a5e" stroke-width="3.4" fill="none"/>
+</g>
+<g transform="translate(600,238)">
+<path d="M-46 0 Q-60 90 -52 150 L52 150 Q60 90 46 0 Q0 -14 -46 0 Z" fill="#2c3a34" opacity=".96"/>
+<path d="M-44 30 Q-90 60 -70 108 Q-30 120 -10 96" stroke="#2c3a34" stroke-width="18" fill="none" stroke-linecap="round" opacity=".96"/>
+<path d="M44 30 Q90 60 70 108 Q30 120 10 96" stroke="#2c3a34" stroke-width="18" fill="none" stroke-linecap="round" opacity=".96"/>
+</g>
+<g fill="#e8c56a">
+<circle cx="330" cy="480" r="4"><animate attributeName="cy" values="480;180" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.8;0" dur="9s" repeatCount="indefinite"/></circle>
+<circle cx="880" cy="500" r="3.4"><animate attributeName="cy" values="500;200" dur="11s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.7;0" dur="11s" repeatCount="indefinite"/></circle>
+<circle cx="760" cy="520" r="3"><animate attributeName="cy" values="520;240" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.6;0" dur="8s" repeatCount="indefinite"/></circle>
+<circle cx="440" cy="530" r="3"><animate attributeName="cy" values="530;220" dur="10s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.6;0" dur="10s" repeatCount="indefinite"/></circle>
+</g>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="g9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#332a18"/><stop offset=".55" stop-color="#1c1710"/><stop offset="1" stop-color="#0e0c08"/></linearGradient>
+<radialGradient id="g9b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f0c86a" stop-opacity=".5"/><stop offset="100%" stop-color="#f0c86a" stop-opacity="0"/></radialGradient>
+<filter id="f9" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g9)"/>
+<ellipse cx="600" cy="200" rx="430" ry="130" fill="url(#g9b)"/>
+<ellipse cx="330" cy="230" rx="220" ry="40" fill="#cbb98d" opacity=".14" filter="url(#f9)"><animate attributeName="cx" values="330;380;330" dur="13s" repeatCount="indefinite"/></ellipse>
+<ellipse cx="880" cy="190" rx="240" ry="44" fill="#cbb98d" opacity=".12" filter="url(#f9)"><animate attributeName="cx" values="880;820;880" dur="16s" repeatCount="indefinite"/></ellipse>
+<g transform="translate(600,60)">
+<path d="M-240 130 Q0 96 240 130 L200 154 Q0 128 -200 154 Z" fill="#3a2c14"/>
+<path d="M-260 132 Q-300 120 -310 96 M260 132 Q300 120 310 96" stroke="#3a2c14" stroke-width="14" fill="none" stroke-linecap="round"/>
+<rect x="-180" y="152" width="360" height="80" fill="#5d231a"/>
+<rect x="-150" y="152" width="20" height="80" fill="#7d2c1f"/><rect x="-60" y="152" width="20" height="80" fill="#7d2c1f"/><rect x="40" y="152" width="20" height="80" fill="#7d2c1f"/><rect x="130" y="152" width="20" height="80" fill="#7d2c1f"/>
+<rect x="-52" y="164" width="104" height="34" rx="4" fill="#1c1410" stroke="#c9a24b" stroke-width="2"/>
+<text y="188" text-anchor="middle" font-size="22" fill="#e8c56a" letter-spacing="6" style="font-family:'Ma Shan Zheng',serif">城隍</text>
+<path d="M-200 232 L200 232 L230 252 L-230 252 Z" fill="#2a2016"/>
+<path d="M-230 252 Q0 282 230 252 L260 276 Q0 306 -260 276 Z" fill="#3a2c14" opacity=".85"/>
+</g>
+<path d="M430 340 L370 620 M770 340 L830 620" stroke="#f0c86a" stroke-width="3" opacity=".18"/>
+<path d="M520 340 L480 620 M680 340 L720 620" stroke="#f0c86a" stroke-width="3" opacity=".24"/>
+<g transform="translate(240,520)">
+<path d="M-90 40 L0 -20 L90 40 Z" fill="#2a3038"/>
+<rect x="-64" y="40" width="128" height="72" fill="#1a2028"/>
+<rect x="-22" y="58" width="44" height="54" fill="#0c0f14"/>
+<path d="M-64 52 l6 24 M56 52 l-6 24" stroke="#11151b" stroke-width="4"/>
+<path d="M-80 112 L80 112 L92 124 L-92 124 Z" fill="#12161d"/>
+<path d="M-110 118 q-20 -4 -34 -14 M110 120 q22 -2 34 -12" stroke="#3a4a3a" stroke-width="3" fill="none"/>
+</g>
+<g transform="translate(960,600)" opacity=".9">
+<path d="M-24 0 Q0 -14 24 0 L18 10 Q0 18 -18 10 Z" fill="#2a2f36"/>
+<path d="M-30 4 q-8 10 0 18 M30 4 q8 10 0 18" stroke="#2a2f36" stroke-width="4" fill="none"/>
+</g>
+<rect y="628" width="1200" height="47" fill="#080705"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<radialGradient id="g10" cx="50%" cy="40%" r="80%"><stop offset="0" stop-color="#f2e8d0"/><stop offset="100%" stop-color="#cdbb90"/></radialGradient>
+<filter id="f10" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#g10)"/>
+<g stroke="#2c2620" fill="none" stroke-linecap="round">
+<path d="M60 640 Q180 480 150 360 Q140 300 180 250" stroke-width="14"/>
+<path d="M150 380 Q240 340 300 350" stroke-width="8"/>
+<path d="M160 300 Q260 260 320 200" stroke-width="7"/>
+<path d="M180 250 Q200 190 260 160" stroke-width="6"/>
+</g>
+<g fill="#a33327">
+<circle cx="300" cy="346" r="16"/><circle cx="326" cy="360" r="12"/><circle cx="282" cy="366" r="11"/>
+<circle cx="322" cy="196" r="15"/><circle cx="346" cy="212" r="11"/><circle cx="300" cy="216" r="10"/>
+<circle cx="262" cy="156" r="12"/><circle cx="282" cy="170" r="9"/>
+</g>
+<g fill="#c9a24b" opacity=".85"><circle cx="312" cy="352" r="3.4"/><circle cx="330" cy="204" r="3.2"/><circle cx="270" cy="162" r="2.8"/></g>
+<ellipse cx="840" cy="560" rx="300" ry="40" fill="#b9a678" opacity=".4" filter="url(#f10)"/>
+<path d="M700 600 q140 -40 280 0" stroke="#2c2620" stroke-width="4" fill="none" opacity=".35"/>
+<g transform="translate(840,300)">
+<text text-anchor="middle" font-size="46" fill="#3a332a" style="font-family:'Ma Shan Zheng',serif" letter-spacing="8">清官受餓</text>
+<text y="64" text-anchor="middle" font-size="46" fill="#3a332a" style="font-family:'Ma Shan Zheng',serif" letter-spacing="8">古今同慨</text>
+</g>
+<g transform="translate(1010,430)"><rect x="-30" y="-30" width="60" height="60" rx="8" fill="#a33327" opacity=".92"/><text y="-2" text-anchor="middle" font-size="19" fill="#f6ead0" style="font-family:'Ma Shan Zheng',serif">子不語</text><text y="20" text-anchor="middle" font-size="14" fill="#f6ead0">卷四</text></g>
+<path d="M1080 120 q12 -12 24 0 q12 -12 24 0" stroke="#3a352c" fill="none" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+`+'</svg>'
+];
+
+/* ================= 場景插畫：自污救人 ================= */
+const ART2 = [
+SVG_OPEN+`
+<defs>
+<linearGradient id="h0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101822"/><stop offset=".6" stop-color="#1a2530"/><stop offset="1" stop-color="#0a0d12"/></linearGradient>
+<filter id="hf0" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h0)"/>
+<circle cx="950" cy="120" r="52" fill="#e9e2c8" opacity=".9"/>
+<circle cx="950" cy="120" r="66" fill="#e9e2c8" opacity=".12" filter="url(#hf0)"/>
+<rect y="520" width="1200" height="155" fill="#0c1016"/>
+<g opacity=".9">
+<path d="M80 540 Q140 400 110 260 Q100 190 150 140" stroke="#161d24" stroke-width="26" fill="none" stroke-linecap="round"/>
+<path d="M120 320 Q220 280 300 300" stroke="#161d24" stroke-width="14" fill="none" stroke-linecap="round"/>
+<path d="M140 220 Q260 180 340 210" stroke="#161d24" stroke-width="12" fill="none" stroke-linecap="round"/>
+<path d="M300 300 q6 60 -4 110 M340 210 q4 70 -6 120 M250 300 q2 50 -8 96 M310 250 q2 60 -6 106" stroke="#1e2a30" stroke-width="4" fill="none" opacity=".8"/>
+</g>
+<g transform="translate(250,560)" opacity=".8">
+<circle cx="0" cy="-34" r="13" fill="#b9c4c2" opacity=".8"/>
+<path d="M-12 -20 Q-18 30 -14 74 L14 74 Q18 30 12 -20 Z" fill="#2b3640" opacity=".9"/>
+</g>
+<g transform="translate(320,566)" opacity=".7">
+<circle cx="0" cy="-30" r="12" fill="#b9c4c2" opacity=".75"/>
+<path d="M-11 -18 Q-16 26 -12 66 L12 66 Q16 26 11 -18 Z" fill="#26303a" opacity=".9"/>
+</g>
+<g transform="translate(390,572)" opacity=".6">
+<circle cx="0" cy="-28" r="11" fill="#b9c4c2" opacity=".7"/>
+<path d="M-10 -16 Q-14 22 -11 60 L11 60 Q14 22 10 -16 Z" fill="#232c36" opacity=".9"/>
+</g>
+<path d="M620 600 Q760 560 900 590 T1200 585 V675 H560 Z" fill="#10161c"/>
+<path d="M640 612 q30 -14 60 0 M730 606 q30 -14 60 0 M830 614 q28 -12 56 0 M920 606 q28 -12 56 0" stroke="#243428" stroke-width="10" fill="none" stroke-linecap="round"/>
+<circle cx="700" cy="606" r="9" fill="#3a5a34"/><circle cx="800" cy="600" r="9" fill="#3a5a34"/><circle cx="900" cy="608" r="9" fill="#34502e"/>
+<g transform="translate(1040,470)">
+<path d="M-70 30 L0 -30 L70 30 Z" fill="#1a222b"/>
+<rect x="-48" y="30" width="96" height="80" fill="#141b23"/>
+<rect x="-16" y="46" width="32" height="64" fill="#0b0f14"/>
+<rect x="-8" y="-8" width="16" height="24" fill="#f5b942" opacity=".85"><animate attributeName="opacity" values=".85;.55;.85" dur="1.4s" repeatCount="indefinite"/></rect>
+</g>
+<g fill="#e8c56a">
+<circle cx="480" cy="380" r="3"><animate attributeName="cy" values="380;340;380" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.9;0" dur="5s" repeatCount="indefinite"/></circle>
+<circle cx="560" cy="300" r="2.6"><animate attributeName="cy" values="300;260;300" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.8;0" dur="6s" repeatCount="indefinite"/></circle>
+<circle cx="700" cy="350" r="3"><animate attributeName="cy" values="350;310;350" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.85;0" dur="7s" repeatCount="indefinite"/></circle>
+</g>
+<text x="600" y="266" text-anchor="middle" font-size="118" fill="#f0e6c8" style="font-family:'Ma Shan Zheng',serif" letter-spacing="18">自污救人</text>
+<text x="600" y="330" text-anchor="middle" font-size="24" fill="#9fb0b8" letter-spacing="8">清・紀昀《閱微草堂筆記》</text>
+<g transform="translate(776,322)"><rect x="-25" y="-22" width="50" height="44" rx="6" fill="#a33327" opacity=".92"/><text y="8" text-anchor="middle" font-size="19" fill="#f6ead0" style="font-family:'Ma Shan Zheng',serif">草堂</text></g>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e151d"/><stop offset=".55" stop-color="#17222c"/><stop offset="1" stop-color="#0a0d11"/></linearGradient>
+<filter id="hf1" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h1)"/>
+<circle cx="990" cy="110" r="48" fill="#e9e2c8" opacity=".9"/>
+<circle cx="990" cy="110" r="62" fill="#e9e2c8" opacity=".12" filter="url(#hf1)"/>
+<rect y="470" width="1200" height="205" fill="#0d1218"/>
+<g opacity=".95">
+<path d="M60 500 Q120 340 90 220 Q80 150 140 100" stroke="#131a21" stroke-width="30" fill="none" stroke-linecap="round"/>
+<path d="M100 300 Q220 250 320 280" stroke="#131a21" stroke-width="16" fill="none" stroke-linecap="round"/>
+<path d="M120 200 Q260 150 360 190" stroke="#131a21" stroke-width="13" fill="none" stroke-linecap="round"/>
+<path d="M320 280 q8 70 -4 130 M360 190 q6 80 -6 140 M260 290 q2 56 -10 110 M300 230 q2 70 -8 120" stroke="#1b262d" stroke-width="5" fill="none" opacity=".85"/>
+</g>
+<g transform="translate(330,560)" opacity=".9">
+<circle cx="0" cy="-36" r="14" fill="#c2ccca" opacity=".9"/>
+<path d="M-13 -22 Q-20 34 -15 84 L15 84 Q20 34 13 -22 Z" fill="#2c3844"/>
+</g>
+<g transform="translate(410,568)" opacity=".8">
+<circle cx="0" cy="-32" r="13" fill="#c2ccca" opacity=".85"/>
+<path d="M-12 -18 Q-18 30 -13 74 L13 74 Q18 30 12 -18 Z" fill="#27323e"/>
+</g>
+<g transform="translate(486,576)" opacity=".7">
+<circle cx="0" cy="-30" r="12" fill="#c2ccca" opacity=".8"/>
+<path d="M-11 -16 Q-16 26 -12 66 L12 66 Q16 26 11 -16 Z" fill="#232d38"/>
+</g>
+<ellipse cx="400" cy="640" rx="300" ry="24" fill="#9fb4bc" opacity=".08" filter="url(#hf1)"><animate attributeName="cx" values="400;340;400" dur="12s" repeatCount="indefinite"/></ellipse>
+<path d="M540 640 Q700 590 860 620 T1200 610 V675 H500 Z" fill="#121a16"/>
+<g stroke="#26402c" stroke-width="12" fill="none" stroke-linecap="round">
+<path d="M580 640 q34 -16 68 0 M680 628 q34 -16 68 0 M790 642 q32 -14 64 0 M900 630 q32 -14 64 0 M1010 644 q30 -14 60 0"/>
+</g>
+<circle cx="640" cy="632" r="10" fill="#3f6236"/><circle cx="750" cy="620" r="10" fill="#3f6236"/><circle cx="860" cy="636" r="10" fill="#38582f"/><circle cx="975" cy="624" r="10" fill="#3f6236"/>
+<g transform="translate(1030,430)">
+<path d="M-90 40 L0 -40 L90 40 Z" fill="#1c252e"/>
+<path d="M-100 40 Q0 12 100 40" stroke="#141c24" stroke-width="10" fill="none"/>
+<rect x="-62" y="40" width="124" height="110" fill="#161f28"/>
+<rect x="-40" y="60" width="80" height="90" fill="#0b1015"/>
+<g transform="translate(0,96)">
+<circle cx="-14" cy="-24" r="15" fill="#d8c49a"/>
+<path d="M-29 -30 Q-14 -44 1 -30 L-4 -38 Q-14 -42 -24 -38 Z" fill="#241f18"/>
+<path d="M-30 -8 Q-36 30 -28 54 L10 54 Q14 24 6 -6 Q-12 -16 -30 -8 Z" fill="#3c342a"/>
+</g>
+<rect x="-70" y="20" width="14" height="30" fill="#f5b942" opacity=".7"><animate attributeName="opacity" values=".7;.45;.7" dur="1.6s" repeatCount="indefinite"/></rect>
+</g>
+<g fill="#e8c56a">
+<circle cx="520" cy="330" r="3"><animate attributeName="cy" values="330;290;330" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.9;0" dur="6s" repeatCount="indefinite"/></circle>
+<circle cx="760" cy="380" r="2.6"><animate attributeName="cy" values="380;340;380" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.8;0" dur="5s" repeatCount="indefinite"/></circle>
+<circle cx="620" cy="260" r="3"><animate attributeName="cy" values="260;220;260" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.85;0" dur="7s" repeatCount="indefinite"/></circle>
+</g>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d141c"/><stop offset="1" stop-color="#0a0e13"/></linearGradient>
+<radialGradient id="h2b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#b8d0d8" stop-opacity=".28"/><stop offset="100%" stop-color="#b8d0d8" stop-opacity="0"/></radialGradient>
+<filter id="hf2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h2)"/>
+<rect y="560" width="1200" height="115" fill="#090c10"/>
+<g opacity=".96">
+<path d="M560 600 Q640 380 600 220 Q590 130 660 70" stroke="#141c23" stroke-width="40" fill="none" stroke-linecap="round"/>
+<path d="M610 330 Q760 270 880 310" stroke="#141c23" stroke-width="20" fill="none" stroke-linecap="round"/>
+<path d="M630 200 Q800 140 940 190" stroke="#141c23" stroke-width="16" fill="none" stroke-linecap="round"/>
+<path d="M880 310 q10 80 -6 150 M940 190 q8 90 -8 160 M790 320 q2 66 -12 130 M840 250 q2 80 -10 144" stroke="#1c272f" stroke-width="6" fill="none" opacity=".85"/>
+</g>
+<ellipse cx="760" cy="470" rx="240" ry="150" fill="url(#h2b)"/>
+<g transform="translate(700,430)">
+<circle cx="0" cy="-30" r="15" fill="#ccd6d4"/>
+<path d="M-16 -14 Q0 -30 16 -14 L12 -22 Q0 -26 -12 -22 Z" fill="#10151b"/>
+<path d="M-14 2 Q-20 60 -16 116 L16 116 Q20 60 14 2 Z" fill="#2a3540"/>
+<path d="M-14 20 Q-34 34 -40 54" stroke="#2a3540" stroke-width="10" fill="none" stroke-linecap="round"/>
+</g>
+<g transform="translate(790,440)">
+<circle cx="0" cy="-28" r="14" fill="#ccd6d4"/>
+<path d="M-13 -12 Q-18 52 -14 108 L14 108 Q18 52 13 -12 Z" fill="#26303c"/>
+<g transform="translate(20,26)"><rect x="-8" y="-20" width="16" height="40" rx="6" fill="#d8cfb2" opacity=".95"/><rect x="-8" y="-24" width="16" height="6" rx="3" fill="#7a6a44"/><rect x="-8" y="18" width="16" height="6" rx="3" fill="#7a6a44"/></g>
+</g>
+<g transform="translate(870,432)">
+<circle cx="0" cy="-30" r="14" fill="#ccd6d4"/>
+<path d="M-13 -14 Q-18 54 -14 110 L14 110 Q18 54 13 -14 Z" fill="#2c3844"/>
+<path d="M12 4 Q32 16 38 34" stroke="#2c3844" stroke-width="10" fill="none" stroke-linecap="round"/>
+</g>
+<g transform="translate(744,470)">
+<circle cx="0" cy="-24" r="12" fill="#c4cecc" opacity=".85"/>
+<path d="M-11 -10 Q-15 44 -12 92 L12 92 Q15 44 11 -10 Z" fill="#222c36" opacity=".95"/>
+</g>
+<path d="M700 390 q-30 -40 -10 -80" stroke="#9fb4bc" stroke-width="3" fill="none" stroke-dasharray="6 10" opacity=".5"><animate attributeName="opacity" values=".5;.15;.5" dur="3s" repeatCount="indefinite"/></path>
+<path d="M800 380 q20 -46 4 -86" stroke="#9fb4bc" stroke-width="3" fill="none" stroke-dasharray="6 10" opacity=".45"><animate attributeName="opacity" values=".45;.1;.45" dur="3.6s" repeatCount="indefinite"/></path>
+<path d="M880 390 q34 -36 22 -78" stroke="#9fb4bc" stroke-width="3" fill="none" stroke-dasharray="6 10" opacity=".4"><animate attributeName="opacity" values=".4;.1;.4" dur="4.2s" repeatCount="indefinite"/></path>
+<g transform="translate(150,430)">
+<path d="M-110 60 L0 -40 L110 60 Z" fill="#151d26"/>
+<rect x="-80" y="60" width="160" height="140" fill="#101720"/>
+<rect x="-52" y="86" width="104" height="114" fill="#080c11"/>
+<g transform="translate(0,160)">
+<circle cx="0" cy="-26" r="16" fill="#d8c49a"/>
+<path d="M-16 -32 Q0 -48 16 -32 L10 -40 Q0 -44 -10 -40 Z" fill="#241f18"/>
+<path d="M-20 -8 Q-26 20 -18 34 L20 34 Q24 10 16 -6 Q-4 -16 -20 -8 Z" fill="#3c342a"/>
+<circle cx="-6" cy="-26" r="2.4" fill="#241f18"/><circle cx="7" cy="-26" r="2.4" fill="#241f18"/>
+</g>
+</g>
+<ellipse cx="760" cy="560" rx="330" ry="26" fill="#9fb4bc" opacity=".07" filter="url(#hf2)"><animate attributeName="cx" values="760;700;760" dur="13s" repeatCount="indefinite"/></ellipse>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="h3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241812"/><stop offset="1" stop-color="#120c08"/></linearGradient>
+<radialGradient id="h3b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f5b942" stop-opacity=".35"/><stop offset="100%" stop-color="#f5b942" stop-opacity="0"/></radialGradient>
+<filter id="hf3" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h3)"/>
+<rect y="560" width="1200" height="115" fill="#0d0806"/>
+<g transform="translate(600,60)">
+<rect x="-3" y="0" width="6" height="60" fill="#3a2c18"/>
+<ellipse cx="0" cy="86" rx="26" ry="30" fill="#7d2c1f" opacity=".9"/>
+<circle cx="0" cy="86" r="60" fill="url(#h3b)"><animate attributeName="opacity" values=".8;1;.8" dur="2s" repeatCount="indefinite"/></circle>
+<rect x="-10" y="112" width="20" height="8" fill="#c9a24b"/>
+</g>
+<g transform="translate(880,300)">
+<circle cx="0" cy="0" r="30" fill="#d8c49a"/>
+<path d="M-30 -10 Q0 -40 30 -10 L24 -24 Q0 -32 -24 -24 Z" fill="#241f18"/>
+<path d="M-14 -6 l12 4 M4 -2 l12 -4" stroke="#4a3a22" stroke-width="4" stroke-linecap="round"/>
+<path d="M-10 14 q10 -6 18 -12" stroke="#4a3a22" stroke-width="3.4" fill="none"/>
+<path d="M-30 32 Q-46 150 -40 280 L46 280 Q52 150 34 32 Q0 18 -30 32 Z" fill="#4a3626"/>
+<path d="M30 60 Q80 30 100 -30" stroke="#4a3626" stroke-width="18" fill="none" stroke-linecap="round"/>
+<path d="M104 -36 Q140 -90 120 -140" stroke="#2c2014" stroke-width="6" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" values="0 104 -36;-24 104 -36;0 104 -36" dur="1.6s" repeatCount="indefinite"/></path>
+</g>
+<g transform="translate(560,420)">
+<circle cx="0" cy="-40" r="26" fill="#dcc9a2"/>
+<path d="M-26 -52 Q-34 -20 -22 6 M26 -52 Q34 -20 22 6" stroke="#1c1610" stroke-width="8" fill="none"/>
+<path d="M-26 -50 Q0 -74 26 -50" stroke="#1c1610" stroke-width="12" fill="none"/>
+<path d="M-12 -44 q5 6 10 0 M4 -44 q5 6 10 0" stroke="#6b5636" stroke-width="3" fill="none"/>
+<path d="M-8 -28 q8 6 16 0" stroke="#6b5636" stroke-width="3" fill="none"/>
+<path d="M-18 -34 q-4 10 0 16 M18 -34 q4 10 0 16" stroke="#7fa8c0" stroke-width="3" fill="none" opacity=".8"><animate attributeName="opacity" values=".8;.2;.8" dur="2s" repeatCount="indefinite"/></path>
+<path d="M-24 -12 Q-40 60 -32 140 L34 140 Q42 60 26 -12 Q0 -22 -24 -12 Z" fill="#5a6470"/>
+<path d="M-30 20 l14 10 M24 40 l14 8 M-26 70 l12 10" stroke="#3e4650" stroke-width="4" stroke-linecap="round"/>
+<path d="M-22 10 Q-48 40 -54 80 M22 10 Q48 40 54 80" stroke="#5a6470" stroke-width="14" fill="none" stroke-linecap="round"/>
+</g>
+<g fill="#e8b23a">
+<circle cx="430" cy="590" r="7"/><circle cx="470" cy="606" r="7"/><circle cx="512" cy="592" r="7"/><circle cx="640" cy="600" r="7"/><circle cx="676" cy="586" r="7"/>
+</g>
+<g fill="#e8b23a" opacity=".85"><rect x="446" y="586" width="8" height="8" rx="2"/><rect x="612" y="596" width="8" height="8" rx="2"/></g>
+<g transform="translate(240,380)">
+<rect x="-70" y="-60" width="140" height="300" fill="#171009"/>
+<circle cx="0" cy="0" r="24" fill="#c9b58e"/>
+<path d="M-24 -8 Q0 -32 24 -8 L18 -20 Q0 -26 -18 -20 Z" fill="#241f18"/>
+<path d="M-12 -2 q6 5 12 0 M4 -2 q6 5 12 0" stroke="#5a4a30" stroke-width="2.8" fill="none"/>
+<path d="M-8 12 q8 5 16 2" stroke="#5a4a30" stroke-width="2.6" fill="none"/>
+<path d="M-22 26 Q-32 120 -28 210 L28 210 Q32 120 22 26 Q0 16 -22 26 Z" fill="#3c3226"/>
+<path d="M20 50 Q40 70 36 100" stroke="#3c3226" stroke-width="14" fill="none" stroke-linecap="round"/>
+</g>
+<path d="M880 180 l30 -18 M920 200 l34 -10 M900 150 l22 -22" stroke="#a33327" stroke-width="4" stroke-linecap="round" opacity=".7"><animate attributeName="opacity" values=".7;.3;.7" dur="1.2s" repeatCount="indefinite"/></path>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="h4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#221610"/><stop offset="1" stop-color="#120b07"/></linearGradient>
+<radialGradient id="h4b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f5b942" stop-opacity=".3"/><stop offset="100%" stop-color="#f5b942" stop-opacity="0"/></radialGradient>
+<filter id="hf4" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h4)"/>
+<rect y="560" width="1200" height="115" fill="#0c0805"/>
+<g transform="translate(600,80)"><ellipse cx="0" cy="26" rx="24" ry="28" fill="#7d2c1f"/><circle r="56" fill="url(#h4b)"><animate attributeName="opacity" values=".8;1;.8" dur="2.4s" repeatCount="indefinite"/></circle><rect x="-3" y="-40" width="6" height="40" fill="#3a2c18"/></g>
+<g transform="translate(360,360)">
+<circle cx="0" cy="0" r="27" fill="#d8c49a"/>
+<path d="M-27 -10 Q0 -36 27 -10 L20 -24 Q0 -30 -20 -24 Z" fill="#2c2620"/>
+<path d="M-13 -4 q6 5 12 0 M5 -4 q6 5 12 0" stroke="#5a4a30" stroke-width="3" fill="none"/>
+<path d="M-8 12 q8 6 16 4" stroke="#5a4a30" stroke-width="2.8" fill="none"/>
+<path d="M-26 30 Q-40 130 -34 240 L40 240 Q46 130 30 30 Q0 16 -26 30 Z" fill="#4a3a2c"/>
+<path d="M24 56 Q66 70 96 62" stroke="#4a3a2c" stroke-width="16" fill="none" stroke-linecap="round"/>
+<path d="M-24 56 Q-40 86 -20 108 Q20 124 62 104" stroke="#4a3a2c" stroke-width="16" fill="none" stroke-linecap="round"/>
+<g transform="translate(110,96)">
+<circle cx="-40" cy="0" r="9" fill="#e8b23a"/><circle cx="-20" cy="4" r="9" fill="#e8b23a"/><circle cx="0" cy="6" r="9" fill="#e8b23a"/><circle cx="20" cy="4" r="9" fill="#e8b23a"/><circle cx="40" cy="0" r="9" fill="#e8b23a"/>
+<path d="M-40 0 Q0 -14 40 0" stroke="#b98a1e" stroke-width="3" fill="none"/>
+<circle cx="0" cy="2" r="60" fill="#ffd76a" opacity=".14" filter="url(#hf4)"><animate attributeName="opacity" values=".14;.26;.14" dur="2s" repeatCount="indefinite"/></circle>
+</g>
+</g>
+<g transform="translate(860,320)">
+<circle cx="0" cy="0" r="30" fill="#d8c49a"/>
+<path d="M-30 -10 Q0 -38 30 -10 L24 -24 Q0 -30 -24 -24 Z" fill="#241f18"/>
+<path d="M-14 -6 q6 -5 12 0 M4 -6 q6 -5 12 0" stroke="#4a3a22" stroke-width="3" fill="none"/>
+<path d="M-8 14 q8 4 16 0" stroke="#4a3a22" stroke-width="3" fill="none"/>
+<path d="M-30 32 Q-44 160 -38 290 L44 290 Q50 160 34 32 Q0 18 -30 32 Z" fill="#54402c"/>
+<path d="M-28 60 Q-70 80 -96 70" stroke="#54402c" stroke-width="16" fill="none" stroke-linecap="round"/>
+</g>
+<g transform="translate(160,430)" opacity=".9">
+<rect x="-60" y="-70" width="120" height="270" fill="#161009"/>
+<circle cx="0" cy="-16" r="20" fill="#c9b58e"/>
+<path d="M-20 -24 Q0 -44 20 -24 L14 -34 Q0 -38 -14 -34 Z" fill="#1c1610"/>
+<path d="M-10 -18 q5 -4 10 0 M3 -18 q5 -4 10 0" stroke="#5a4a30" stroke-width="2.6" fill="none"/>
+<path d="M-7 -6 q7 -5 14 0" stroke="#5a4a30" stroke-width="2.6" fill="none"/>
+<path d="M-18 6 Q-26 90 -22 170 L22 170 Q26 90 18 6 Q0 -2 -18 6 Z" fill="#4a5260"/>
+</g>
+<path d="M330 200 q-16 -24 -6 -50 M370 190 q-6 -28 8 -48" stroke="#cfc4a8" stroke-width="3" fill="none" opacity=".4"><animate attributeName="opacity" values=".4;.1;.4" dur="3.4s" repeatCount="indefinite"/></path>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="h5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c2416"/><stop offset=".5" stop-color="#1c1810"/><stop offset="1" stop-color="#0e0c08"/></linearGradient>
+<radialGradient id="h5b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f0c86a" stop-opacity=".5"/><stop offset="100%" stop-color="#f0c86a" stop-opacity="0"/></radialGradient>
+<filter id="hf5" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h5)"/>
+<ellipse cx="600" cy="90" rx="330" ry="80" fill="#cbb98d" opacity=".12" filter="url(#hf5)"><animate attributeName="cx" values="600;560;600" dur="14s" repeatCount="indefinite"/></ellipse>
+<g transform="translate(600,40)">
+<path d="M-190 100 Q0 70 190 100 L160 120 Q0 96 -160 120 Z" fill="#3a2c14"/>
+<path d="M-206 102 Q-238 92 -246 72 M206 102 Q238 92 246 72" stroke="#3a2c14" stroke-width="12" fill="none" stroke-linecap="round"/>
+<rect x="-140" y="118" width="280" height="60" fill="#5d231a"/>
+<rect x="-116" y="118" width="16" height="60" fill="#7d2c1f"/><rect x="-8" y="118" width="16" height="60" fill="#7d2c1f"/><rect x="100" y="118" width="16" height="60" fill="#7d2c1f"/>
+<rect x="-44" y="128" width="88" height="30" rx="4" fill="#1c1410" stroke="#c9a24b" stroke-width="2"/>
+<text y="150" text-anchor="middle" font-size="20" fill="#e8c56a" letter-spacing="6" style="font-family:'Ma Shan Zheng',serif">城隍</text>
+</g>
+<path d="M600 210 L600 480" stroke="#f0c86a" stroke-width="200" opacity=".08"/>
+<path d="M600 210 L600 480" stroke="#f0c86a" stroke-width="90" opacity=".1"><animate attributeName="opacity" values=".1;.2;.1" dur="3s" repeatCount="indefinite"/></path>
+<g>
+<rect x="-26" y="-34" width="52" height="68" rx="6" fill="#efe0bc" stroke="#b98a1e" stroke-width="2.4"/>
+<rect x="-26" y="-34" width="52" height="12" rx="6" fill="#7d2c1f"/>
+<path d="M-12 -10 H12 M-12 2 H12 M-12 14 H6" stroke="#8a6a3a" stroke-width="3"/>
+<animateTransform attributeName="transform" type="translate" values="600 470;600 240;600 470" dur="7s" repeatCount="indefinite"/>
+<animate attributeName="opacity" values="1;1;0" keyTimes="0;.7;1" dur="7s" repeatCount="indefinite"/>
+</g>
+<g transform="translate(600,560)">
+<path d="M-160 0 L0 -70 L160 0 Z" fill="#232a33"/>
+<path d="M-176 2 Q0 24 176 2" stroke="#161b22" stroke-width="10" fill="none"/>
+<rect x="-118" y="0" width="236" height="110" fill="#1a2028"/>
+<rect x="-36" y="26" width="72" height="84" fill="#0d1015"/>
+<rect x="-30" y="6" width="60" height="22" rx="3" fill="#241f18" stroke="#3a332a" stroke-width="1.6"/>
+<text y="22" text-anchor="middle" font-size="15" fill="#6e6250" letter-spacing="4">土地祠</text>
+</g>
+<g transform="translate(360,470)">
+<rect x="-30" y="-40" width="60" height="18" rx="4" fill="#11151b"/>
+<circle cx="0" cy="0" r="28" fill="#d8dedb"/>
+<path d="M-13 -3 q6 5 12 0 M5 -3 q6 5 12 0" stroke="#4b5a5e" stroke-width="2.8" fill="none"/>
+<path d="M-7 12 q7 5 14 0" stroke="#4b5a5e" stroke-width="2.8" fill="none"/>
+<path d="M-26 30 Q-36 120 -32 190 L32 190 Q36 120 26 30 Q0 18 -26 30 Z" fill="#2c3a34"/>
+<path d="M24 56 Q44 40 48 16" stroke="#2c3a34" stroke-width="14" fill="none" stroke-linecap="round"/>
+<rect x="40" y="-14" width="14" height="36" rx="4" fill="#c9a24b" transform="rotate(14 47 -2)"/>
+</g>
+<rect y="620" width="1200" height="55" fill="#0a0806"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<radialGradient id="h6" cx="50%" cy="36%" r="80%"><stop offset="0" stop-color="#4a3a1c"/><stop offset=".6" stop-color="#2a2112"/><stop offset="1" stop-color="#14100a"/></radialGradient>
+<radialGradient id="h6b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f5d47a" stop-opacity=".55"/><stop offset="100%" stop-color="#f5d47a" stop-opacity="0"/></radialGradient>
+<filter id="hf6" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h6)"/>
+<ellipse cx="600" cy="420" rx="420" ry="180" fill="url(#h6b)"><animate attributeName="opacity" values=".85;1;.85" dur="4s" repeatCount="indefinite"/></ellipse>
+<ellipse cx="250" cy="560" rx="220" ry="36" fill="#cbb98d" opacity=".1" filter="url(#hf6)"><animate attributeName="cx" values="250;300;250" dur="15s" repeatCount="indefinite"/></ellipse>
+<ellipse cx="950" cy="580" rx="240" ry="40" fill="#cbb98d" opacity=".1" filter="url(#hf6)"><animate attributeName="cx" values="950;890;950" dur="17s" repeatCount="indefinite"/></ellipse>
+<g transform="translate(600,430)">
+<rect x="-260" y="0" width="520" height="36" rx="8" fill="#5a4020"/>
+<rect x="-280" y="-16" width="560" height="20" rx="8" fill="#7a5a2c"/>
+<rect x="-230" y="36" width="28" height="120" fill="#3c2a14"/><rect x="202" y="36" width="28" height="120" fill="#3c2a14"/>
+<g transform="translate(-110,-40)">
+<rect x="-80" y="-26" width="160" height="52" rx="4" fill="#efe6cc"/>
+<path d="M-64 -12 H64 M-64 0 H50 M-64 12 H58" stroke="#8a7a5a" stroke-width="3"/>
+<rect x="-86" y="-30" width="10" height="60" rx="5" fill="#7d2c1f"/><rect x="76" y="-30" width="10" height="60" rx="5" fill="#7d2c1f"/>
+</g>
+<g transform="translate(110,-52)">
+<path d="M-60 20 Q0 -30 60 20 Q0 40 -60 20 Z" fill="#241f18"/>
+<path d="M-40 -30 Q0 -56 40 -30 L30 -40 Q0 -48 -30 -40 Z" fill="#241f18"/>
+<circle cx="0" cy="-10" r="7" fill="#e8b23a"/>
+</g>
+<g transform="translate(200,-70) rotate(30)"><rect x="-5" y="-60" width="10" height="90" rx="4" fill="#4a3a24"/><path d="M0 -60 q10 -14 0 -26 q-10 12 0 26" fill="#241f18"/></g>
+</g>
+<g transform="translate(600,150)">
+<text text-anchor="middle" font-size="56" fill="#f5d47a" style="font-family:'Ma Shan Zheng',serif" letter-spacing="10">借來生之壽</text>
+<text y="56" text-anchor="middle" font-size="34" fill="#d8b45e" style="font-family:'Ma Shan Zheng',serif" letter-spacing="8">俾養其母</text>
+<animateTransform attributeName="transform" type="translate" values="600 150;600 142;600 150" dur="4s" repeatCount="indefinite"/>
+</g>
+<path d="M600 40 L520 130 M600 40 L680 130 M600 40 L600 118" stroke="#f5d47a" stroke-width="3" opacity=".35"><animate attributeName="opacity" values=".35;.12;.35" dur="3s" repeatCount="indefinite"/></path>
+<g fill="#f0c86a">
+<circle cx="380" cy="300" r="3.4"><animate attributeName="cy" values="300;180" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.8;0" dur="8s" repeatCount="indefinite"/></circle>
+<circle cx="820" cy="320" r="3"><animate attributeName="cy" values="320;200" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.7;0" dur="9s" repeatCount="indefinite"/></circle>
+</g>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<linearGradient id="h7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c2014"/><stop offset="1" stop-color="#181008"/></linearGradient>
+<radialGradient id="h7b" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#f5b942" stop-opacity=".3"/><stop offset="100%" stop-color="#f5b942" stop-opacity="0"/></radialGradient>
+<filter id="hf7" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h7)"/>
+<circle cx="600" cy="360" r="300" fill="url(#h7b)"/>
+<g transform="translate(950,120)">
+<rect x="-80" y="-70" width="160" height="150" fill="#20283a" stroke="#0b0d13" stroke-width="8"/>
+<circle cx="-20" cy="-20" r="30" fill="#e9e2c8" opacity=".9"/>
+<path d="M-80 -20 H80 M-80 30 H80 M-26 -70 V80 M28 -70 V80" stroke="#0b0d13" stroke-width="5"/>
+<path d="M40 40 q16 -26 34 -34 M46 52 q20 -18 40 -22" stroke="#3a4a3a" stroke-width="4" fill="none" opacity=".8"/>
+</g>
+<g transform="translate(600,430)">
+<rect x="-220" y="0" width="440" height="30" rx="6" fill="#6e4a24"/>
+<rect x="-240" y="-14" width="480" height="18" rx="6" fill="#8a5c2e"/>
+<rect x="-190" y="30" width="26" height="110" fill="#4a3016"/><rect x="164" y="30" width="26" height="110" fill="#4a3016"/>
+<ellipse cx="-70" cy="-26" rx="56" ry="16" fill="#3a2c18"/>
+<path d="M-110 -30 Q-70 -54 -30 -30" fill="#f0ead8"/>
+<path d="M-92 -38 q14 -8 28 0" stroke="#d8cdb2" stroke-width="4" fill="none"/>
+<path d="M-70 -46 q8 -18 0 -34" stroke="#e8e0c8" stroke-width="3.4" fill="none" opacity=".55"><animate attributeName="opacity" values=".55;.2;.55" dur="3s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -14;0 0" dur="3s" repeatCount="indefinite"/></path>
+<ellipse cx="80" cy="-26" rx="56" ry="16" fill="#3a2c18"/>
+<path d="M40 -30 Q80 -54 120 -30" fill="#f0ead8"/>
+<path d="M58 -38 q14 -8 28 0" stroke="#d8cdb2" stroke-width="4" fill="none"/>
+<path d="M80 -46 q8 -18 0 -34" stroke="#e8e0c8" stroke-width="3.4" fill="none" opacity=".5"><animate attributeName="opacity" values=".5;.15;.5" dur="3.6s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -16;0 0" dur="3.6s" repeatCount="indefinite"/></path>
+</g>
+<g transform="translate(380,330)">
+<circle cx="0" cy="0" r="28" fill="#d8c49a"/>
+<path d="M-28 -10 Q0 -38 28 -10 L22 -24 Q0 -30 -22 -24 Z" fill="#3a3230"/>
+<path d="M-13 -4 q6 -6 12 0 M5 -4 q6 -6 12 0" stroke="#5a4a30" stroke-width="3" fill="none"/>
+<path d="M-8 12 q8 7 16 0" stroke="#5a4a30" stroke-width="3" fill="none"/>
+<path d="M-26 30 Q-40 130 -34 220 L38 220 Q44 130 28 30 Q0 16 -26 30 Z" fill="#4a3a28"/>
+<path d="M24 54 Q60 70 70 96" stroke="#4a3a28" stroke-width="15" fill="none" stroke-linecap="round"/>
+</g>
+<g transform="translate(820,340)">
+<circle cx="0" cy="0" r="27" fill="#d8c49a"/>
+<path d="M-27 -8 Q0 -36 27 -8 L20 -22 Q0 -28 -20 -22 Z" fill="#4a4440"/>
+<path d="M-13 -4 q6 -6 12 0 M5 -4 q6 -6 12 0" stroke="#6b5a40" stroke-width="3" fill="none"/>
+<path d="M-8 12 q8 7 16 0" stroke="#6b5a40" stroke-width="3" fill="none"/>
+<path d="M-24 28 Q-38 120 -32 210 L36 210 Q42 120 26 28 Q0 14 -24 28 Z" fill="#5a4a38"/>
+<path d="M-22 52 Q-56 68 -66 94" stroke="#5a4a38" stroke-width="15" fill="none" stroke-linecap="round"/>
+</g>
+<path d="M200 160 q10 14 -2 26 q-12 12 -2 26" stroke="#8a6a3a" stroke-width="3" fill="none" opacity=".5"><animateTransform attributeName="transform" type="translate" values="0 0;20 40;40 90" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".5;.25;0" dur="8s" repeatCount="indefinite"/></path>
+<rect y="620" width="1200" height="55" fill="#0d0906"/>
+`+'</svg>',
+SVG_OPEN+`
+<defs>
+<radialGradient id="h8" cx="50%" cy="40%" r="80%"><stop offset="0" stop-color="#f2e8d0"/><stop offset="100%" stop-color="#cbb98d"/></radialGradient>
+<filter id="hf8" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+</defs>
+<rect width="1200" height="675" fill="url(#h8)"/>
+<g stroke="#2c2620" fill="none" stroke-linecap="round">
+<path d="M1140 640 Q1030 470 1060 330 Q1072 250 1010 190" stroke-width="16"/>
+<path d="M1052 380 Q950 330 860 350" stroke-width="9"/>
+<path d="M1042 260 Q930 220 840 250" stroke-width="8"/>
+<path d="M860 350 q-4 60 8 104 M840 250 q-2 66 10 116 M920 330 q0 50 8 92" stroke-width="4" opacity=".85"/>
+</g>
+<g fill="#3a5a34" opacity=".9">
+<path d="M858 452 q-20 10 -44 6 q22 -16 44 -6 Z"/><path d="M918 420 q-22 8 -46 2 q24 -14 46 -2 Z"/>
+<path d="M842 560 q-18 12 -42 10 q20 -18 42 -10 Z"/><path d="M926 534 q-20 10 -44 6 q22 -16 44 -6 Z"/>
+</g>
+<g transform="translate(300,470)" opacity=".92">
+<circle cx="0" cy="-40" r="20" fill="#3a3230"/>
+<path d="M-18 -18 Q-26 40 -20 110 L22 110 Q28 40 18 -18 Q0 -26 -18 -18 Z" fill="#3a332a"/>
+</g>
+<g transform="translate(360,480)" opacity=".92">
+<circle cx="0" cy="-34" r="17" fill="#3a3230"/>
+<path d="M-15 -14 Q-22 36 -16 96 L18 96 Q24 36 15 -14 Q0 -22 -15 -14 Z" fill="#3a332a"/>
+<path d="M14 6 Q30 16 34 34" stroke="#3a332a" stroke-width="9" fill="none" stroke-linecap="round"/>
+</g>
+<ellipse cx="330" cy="600" rx="160" ry="14" fill="#b9a678" opacity=".5" filter="url(#hf8)"/>
+<g transform="translate(700,290)">
+<text text-anchor="middle" font-size="46" fill="#3a332a" style="font-family:'Ma Shan Zheng',serif" letter-spacing="8">一念之仁</text>
+<text y="64" text-anchor="middle" font-size="46" fill="#3a332a" style="font-family:'Ma Shan Zheng',serif" letter-spacing="8">冥籍為動</text>
+</g>
+<g transform="translate(700,430)"><rect x="-30" y="-30" width="60" height="60" rx="8" fill="#a33327" opacity=".92"/><text y="-2" text-anchor="middle" font-size="18" fill="#f6ead0" style="font-family:'Ma Shan Zheng',serif">閱微</text><text y="20" text-anchor="middle" font-size="18" fill="#f6ead0" style="font-family:'Ma Shan Zheng',serif">草堂</text></g>
+<path d="M180 130 q12 -12 24 0 q12 -12 24 0" stroke="#3a352c" fill="none" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+<path d="M240 100 q10 -10 20 0 q10 -10 20 0" stroke="#3a352c" fill="none" stroke-width="2.6" stroke-linecap="round" opacity=".4"/>
+`+'</svg>'
+];
+
+/* ================= 故事資料 ================= */
+const STORIES = [
+{
+ name:"土地受餓", source:"清・袁枚《子不語》", seal:"隨園",
+ endQuote:"香火冷暖・映照人間",
+ endPoem:"「解應酬者，可望格外超升；<br>做清官者，只好大計卓薦。」<br><br>袁枚借鬼神之事，諷喻世情——<br>清官受餓，古今同慨。",
+ art:ART1,
+ scenes:[
+ {chip:"序幕・隨園夜話", narr:"清朝乾隆年間，隨園主人袁枚著筆記小說《子不語》。書中有一則奇談，說的是一位清廉的土地神，終年挨餓的故事——土地受餓。", orig:"袁枚《子不語》・土地受餓"},
+ {chip:"第一幕・瘧熱昏沉", narr:"杭州錢塘，有一位名叫張望齡的秀才。這一年，他染上了瘧疾，寒熱交作，病勢十分沉重。", orig:"杭州錢塘邑生張望齡，病瘧。"},
+ {chip:"第二幕・故人踉蹌", narr:"當熱勢最盛的時候，張望齡恍惚之間，只見一位已經亡故的同學顧某，衣衫襤褸，踉踉蹌蹌，穿霧而來。", orig:"熱重時，見已故同學顧某者踉蹌而來。"},
+ {chip:"第三幕・延壽一紀", narr:"顧某說道：兄台的壽數，原本已經斷絕。幸虧幼年時曾經救過一名女子，上天嘉許，為你延長壽命一紀。一紀，便是整整十二年。", orig:"兄壽算已絕，幸幼年曾救一女，益壽一紀。"},
+ {chip:"第四幕・鬼棍訛詐", narr:"那位曾被救下的女子，得知張兄病重，特地前來探望。不料被地方上的一名鬼棍訛詐，誣賴她平生有什麼見不得人的過失。顧某勃然大怒，嚴加斥責，這才將鬼棍趕走。", orig:"前兄所救之女知兄病重，特來奉探，為地方鬼棍所詐。弟大加呵斥，方遣之去。"},
+ {chip:"第五幕・贈金固辭", narr:"張望齡見故人為了自己的事奔波而來，衣裳破爛、面有菜色，心中不忍，便取金相贈。顧某卻連連擺手，分毫不受。", orig:"衣裳藍縷，面有菜色，因謝以金。顧辭不受。"},
+ {chip:"第六幕・土地受餓", narr:"顧某說：我如今是本地的土地神。官職卑微，地方清苦，我素來講究操守，不肯私自收受陰司詞訟、濫作威福，因此終年沒有香火。雖然是土地神，卻往往挨餓。然而非分之財，縱是故人相贈，我也絕不接受。張望齡聽罷，大笑起來。", orig:"我現為本處土地神……素講操守，不肯擅受鬼詞，濫作威福，故終年無香火，雖作土地，往往受餓。"},
+ {chip:"第七幕・牲牢致祭", narr:"次日，張望齡備下牛羊牲牢、香燭祭品，虔誠祭賽土地神。當夜，又夢見顧某前來道謝。", orig:"次日，具牲牢祭之，又夢顧來謝。"},
+ {chip:"第八幕・鬼得一飽", narr:"顧某說：人吃一頓飽飯，可以支撐三日；鬼吃一頓飽飯，可以支撐一年。我受了你的恩惠，這一飽足以挨到陰司考績大計，但願能得一個卓異的薦舉。", orig:"人得一飽，可耐三日；鬼得一飽，可耐一年。我受君恩，可挨到陰司大計，望薦卓異矣。"},
+ {chip:"第九幕・清官難升", narr:"張望齡問：像您這樣的清官，為何不立刻升作城隍呢？顧某答道：懂得應酬的，可望破格超升；做清官的，只好等考績之年，得一個卓異保薦罷了。", orig:"解應酬者，可望格外超升；做清官者，只好大計卓薦。"},
+ {chip:"尾聲・古今同慨", narr:"香火的冷暖，映照的正是人間官場。袁枚借鬼神之事，諷喻世情：清廉者終年受餓，鑽營者步步高升。清官受餓，古今同慨。", orig:"清官受餓，古今同慨。"}
+ ],
+ modal:{
+ orig:"杭州錢塘邑生張望齡，病瘧。熱重時，見已故同學顧某者踉蹌而來，曰：「兄壽算已絕，幸幼年曾救一女，益壽一紀。前兄所救之女知兄病重，特來奉探，為地方鬼棍所詐，誣以平素有黯昧事。弟大加呵斥，方遣之去，特詣府奉賀。」張見故人為己事而來，衣裳藍縷，面有菜色，因謝以金。顧辭不受，曰：「我現為本處土地神，因官職小，地方清苦，我又素講操守，不肯擅受鬼詞，濫作威福，故終年無香火，雖作土地，往往受餓。然非分之財，雖故人見贈，我終不受。」張大笑。\n次日，具牲牢祭之，又夢顧來謝曰：「人得一飽，可耐三日；鬼得一飽，可耐一年。我受君恩，可挨到陰司大計，望薦卓異矣。」張問：「如此清官，何以不即升城隍？」曰：「解應酬者，可望格外超升；做清官者，只好大計卓薦。」",
+ trans:"杭州錢塘縣有位秀才名叫張望齡，患上了瘧疾。發高燒最厲害的時候，他看見已經去世的同學顧某跌跌撞撞地走來，說道：「老兄的壽命本已到了盡頭，幸虧你幼年時救過一位女子，因此增壽十二年。先前你救的那位女子聽說你病重，特來探望，卻被地方上的無賴惡鬼訛詐，誣衊她平日有不可告人的醜事。我嚴厲地斥責了那惡鬼，才將他打發走。今日特地到府上向你道賀。」張望齡見老朋友為了自己的事而來，穿得破破爛爛、面黃肌瘦，便拿出銀錢感謝他。顧某推辭不肯接受，說：「我現在是本地的土地神，因為官職小，轄區清苦，我一向又講究操守，不肯擅自收受鬼魂的訴訟賄賂、濫用威權，所以整年沒有香火供奉。雖然當著土地神，卻常常挨餓。然而不屬於我應得的錢財，即使是老朋友贈送，我也絕不接受。」張望齡聽後大笑。\n第二天，他備辦牛羊祭品祭祀顧某，又夢見顧某前來道謝說：「人吃一頓飽飯，可以支撐三天；鬼吃一頓飽飯，可以支撐一年。我受了你的恩惠，可以一直撐到陰間的大考績，盼望能獲得『卓異』的評定推薦。」張望齡問：「像你這樣的清官，為什麼不馬上提拔為城隍呢？」顧某說：「善於應酬鑽營的，才有可能破格超升；做清官的，只能等到考績時被推薦為『卓異』罷了。」",
+ intro:"袁枚（1716–1797），字子才，號簡齋、隨園老人，清代著名詩人、文學家，辭官後隱居南京隨園，世稱隨園先生。《子不語》是其文言筆記小說集，書名取自《論語・述而》「子不語怪、力、亂、神」，專記鬼神奇談、民間異聞，與紀昀《閱微草堂筆記》、蒲松齡《聊齋志異》並稱清代志怪筆記之代表作。\n〈土地受餓〉篇幅雖短，構思極妙。土地神是民間信仰中最基層的神祇，一如人間最基層的小吏。顧某為神而堅守操守，不受鬼詞、不濫威福，結果「終年無香火，往往受餓」；反觀人間官場，逢迎鑽營者飛黃騰達，清正廉明者沉淪下僚。結尾「解應酬者，可望格外超升；做清官者，只好大計卓薦」一句，以陰間映襯陽世，冷雋犀利，是袁枚諷世筆記的點睛之筆。文中「人得一飽，可耐三日；鬼得一飽，可耐一年」亦成妙語，讀之令人失笑，笑後復生感慨。"
+ }
+},
+{
+ name:"自污救人", source:"清・紀昀《閱微草堂筆記》", seal:"草堂",
+ endQuote:"一念之仁・冥籍為動",
+ endPoem:"「土神嘉其不辭自污以救人。」<br><br>為救一婢，甘冒盜名；<br>村嫗之仁，感天延壽。",
+ art:ART2,
+ scenes:[
+ {chip:"序幕・閱微草堂", narr:"乾隆年間，一代大儒紀昀著《閱微草堂筆記》。書中有一則故事，講一位村中老婦，寧可自擔盜名、污損己身，也要救人一命——自污救人。", orig:"紀昀《閱微草堂筆記》・自污救人"},
+ {chip:"第一幕・瓜田夜守", narr:"盛夏之夜，農夫陳四在田間的團焦裡看守瓜田。他遙望老柳樹下，隱隱約約有幾個人影，只當是有人來偷瓜，便假裝睡著，側耳細聽。", orig:"農夫陳四，夏夜在團焦守瓜田，遙見老柳樹下隱隱有數人影，疑盜瓜者，假寐聽之。"},
+ {chip:"第二幕・老柳鬼語", narr:"只聽樹下一人說：不知陳四睡了沒有？另一人說：陳四不過數日陽壽，就要來與我們同遊了，怕他作甚？我昨日在土地祠當值，還見過城隍的公文呢。", orig:"陳四不過數日，即來從我輩游，何畏之有。昨上直土神祠，見城隍牒矣。"},
+ {chip:"第三幕・婢女蒙冤", narr:"忽然又一人說：你們不知道嗎？陳四已經被延長陽壽了！眾人忙問緣故。他說：有戶人家丟了兩千文錢，婢女被鞭打數百下，仍不肯認。她的父親憤恨地說：若果真偷盜，我必將她縊殺！婢女哭喊：不認是死，認了也是死啊！", orig:"陳四延壽矣……某家失錢二千文，其婢鞭數百，未承。婢曰：是不承死，承亦死也。呼天泣。"},
+ {chip:"第四幕・慈母自首", narr:"陳四的母親心生憐憫，悄悄典當了自己的衣裳，換得兩千文錢，捧還主人，自認道：老婦一時糊塗見利，取了這錢。如今情願冒死自首，只求莫結來世冤孽。說完便辭工離去。那婢女因此得免。", orig:"陳四之母憐之，陰典衣得錢二千，捧還主人……謹冒死自首，免結來世冤。婢因得免。"},
+ {chip:"第五幕・土地達城隍", narr:"土地神嘉許她「不辭自污以救人」的義舉，將此事上報城隍，城隍又轉呈東嶽。", orig:"土神嘉其不辭自污以救人，達城隍。城隍達東嶽。"},
+ {chip:"第六幕・東嶽延壽", narr:"東嶽大帝查檢命籍：此婦命中本當老來喪子、凍餓而死。因這份功德，判其子陳四借來生之壽，於今生奉養母親。", orig:"東岳檢籍，此婦當老而喪子，凍餓死。以是功德，判陳四借來生之壽，於今生俾養其母。"},
+ {chip:"第七幕・釋然養母", narr:"陳四原本暗中怨恨母親因盜錢被逐，至此真相大白，心中釋然，盡心奉養。九年之後母親去世，葬事完畢，陳四也無疾而終。", orig:"陳四方竊憤母以盜錢見逐，至是乃釋然。後九年母死，葬事畢，無疾而逝。"},
+ {chip:"尾聲・一念之仁", narr:"為救一個素不相識的婢女，寧願自擔盜名、污損清白——這位村中老婦的慈悲，何其難得。一念之仁，竟能感動冥籍，改寫命數。善惡之報，信然可畏。", orig:"土神嘉其不辭自污以救人。"}
+ ],
+ modal:{
+ orig:"農夫陳四，夏夜在團焦守瓜田，遙見老柳樹下隱隱有數人影，疑盜瓜者，假寐聽之。中一人曰：不知陳四已睡未？又一人曰：陳四不過數日，即來從我輩游，何畏之有。昨上直土神祠，見城隍牒矣。又一人曰：君不知耶？陳四延壽矣。眾問何故，曰：某家失錢二千文，其婢鞭數百，未承。婢之父亦憤曰：生女如是，不如無。倘果盜，吾必縊殺之。婢曰：是不承死，承亦死也。呼天泣，陳四之母憐之，陰典衣得錢二千，捧還主人曰：老婦昏憒，一時見利，取此錢，意謂主人積錢多，未必遽算出，不料累此婢，心實惶愧。錢尚未用，謹冒死自首，免結來世冤。老婦亦無顏居此，請從此辭。婢因得免，土神嘉其不辭自污以救人，達城隍。城隍達東嶽，東岳檢籍，此婦當老而喪子，凍餓死。以是功德，判陳四借來生之壽，於今生俾養其母。爾昨下直，未知也。陳四方竊憤母以盜錢見逐，至是乃釋然。後九年母死，葬事畢，無疾而逝。（出自《閱微草堂筆記》）",
+ trans:"農夫陳四，一個夏夜在瓜田的草棚裡守瓜。遠遠望見老柳樹下隱約有幾個人影，他以為是偷瓜的，便假裝睡著偷聽。其中一個說：「不知陳四睡了沒有？」另一個說：「陳四不過再過幾天，就要來同我們作伴了，怕他什麼？昨天我在土地祠當值，還看見了城隍的公文。」又有一人說：「你們還不知道嗎？陳四的陽壽已經延長了。」大家追問緣故，那人說：「有戶人家丟了兩千文錢，懷疑是婢女偷的，鞭打幾百下她都不肯承認。婢女的父親也氣憤地說：生這樣的女兒還不如沒有，若是真偷了，我一定勒死她。婢女哭喊：不承認是死，承認也是死，呼天搶地。陳四的母親憐憫她，暗地裡典當衣裳換得兩千文錢，捧去還給主人，說：老婦昏庸糊塗，一時貪利拿了這錢，心想主人錢多未必算得出來，不料連累了這婢女，心中實在惶恐慚愧。錢還沒動用，現在冒死自首，免得結下來世的冤孽。老婦也無臉再待下去，就此告辭。婢女因此得以倖免。土地神嘉許她不惜自污名聲來救人，上報城隍；城隍又上報東嶽。東嶽查閱命籍，此婦本該老來喪子、凍餓而死。因這份功德，判陳四借用來生的壽數，在今生奉養母親。你們昨夜不當值，所以不知道。」陳四本來正暗暗怨恨母親因偷錢被趕走，至此才釋然。九年後母親去世，辦完喪事，陳四無疾而終。",
+ intro:"紀昀（1724–1805），字曉嵐，直隸獻縣人，乾隆年間大學士，曾主持編修《四庫全書》，為有清一代文宗。《閱微草堂筆記》是他晚年所著的文言筆記小說集，共二十四卷，體例仿晉宋志怪，尚質黜華，多記狐鬼神怪、因果勸懲之事，與袁枚《子不語》、蒲松齡《聊齋志異》鼎足而三。\n〈自污救人〉以瓜田夜聞鬼語開篇，層層倒敘出一樁冤案：婢女蒙冤，承亦死、不承亦死；陳四之母為救她，甘冒盜名、典衣還錢、自污辭去。世人眼中的「義舉」往往光彩奪目，而此婦之善，偏偏以自污藏之——寧損己名，不負此心，其德更為深沉。冥司因此改判：本該老而喪子、凍餓而死的命數，換得兒子借來生之壽以奉養其母。故事結尾陳四「至是乃釋然」，誤會冰釋，母子相依九年，筆墨簡淡而餘味深長。紀昀藉此勸世：一念之仁，天必鑑之；善惡之報，如影隨形。"
+ }
+}
+];
+
+/* ================= DOM ================= */
+const $=id=>document.getElementById(id);
+const artA=$("artA"), artB=$("artB"), chip=$("chapterChip"),
+ origLine=$("origLine"), narrLine=$("narrLine"), subs=$("subs"),
+ dotsBox=$("dots"), progressBar=$("progressBar"), btnPlay=$("btnPlay"),
+ scrollWrap=$("scrollWrap"), scrollTag=$("scrollTag");
+let front=artA, back=artB;
+let curStory=STORIES[0], storyIdx=0, dots=[];
+
+function buildDots(){
+ dotsBox.innerHTML="";dots=[];
+ curStory.scenes.forEach((s,i)=>{const d=document.createElement("div");d.className="dot";d.title=s.chip;
+  d.onclick=()=>jump(i);dotsBox.appendChild(d);dots.push(d);});
+}
+function playUnroll(){
+ scrollWrap.classList.remove("unroll");
+ void scrollWrap.offsetWidth;
+ scrollWrap.classList.add("unroll");
+}
+
+/* ================= 音頻引擎 ================= */
+let AC=null,master,musicBus,sfxBus,musicOn=true,voiceOn=true,melTimer=null;
+function initAudio(){
+ if(AC) return;
+ AC=new (window.AudioContext||window.webkitAudioContext)();
+ master=AC.createGain(); master.gain.value=.9;
+ const comp=AC.createDynamicsCompressor();
+ master.connect(comp); comp.connect(AC.destination);
+ musicBus=AC.createGain(); musicBus.gain.value=.5; musicBus.connect(master);
+ sfxBus=AC.createGain(); sfxBus.gain.value=.8; sfxBus.connect(master);
+ startDrone(); startWind(); scheduleMelody();
+}
+function pluck(freq,t,vel,dur){
+ const o=AC.createOscillator();o.type="triangle";
+ const o2=AC.createOscillator();o2.type="sine";o2.frequency.value=freq*2.003;
+ const f=AC.createBiquadFilter();f.type="lowpass";f.frequency.value=freq*3.2;f.Q.value=1;
+ const g=AC.createGain(),g2=AC.createGain();
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vel,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+dur);
+ g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(vel*.16,t+.008);g2.gain.exponentialRampToValueAtTime(.001,t+dur*.5);
+ o.frequency.value=freq;o.connect(f);f.connect(g);g.connect(musicBus);
+ o2.connect(g2);g2.connect(musicBus);
+ o.start(t);o2.start(t);o.stop(t+dur+.1);o2.stop(t+dur+.1);
+}
+const SCALE=[261.63,293.66,329.63,392,440,523.25,587.33,659.25,783.99];
+let lastNote=4;
+function scheduleMelody(){
+ if(!AC)return;
+ if(musicOn&&AC.state==="running"){
+  const t=AC.currentTime+.06;
+  lastNote=Math.max(0,Math.min(SCALE.length-1,lastNote+[-2,-1,-1,0,1,1,2][Math.floor(Math.random()*7)]));
+  pluck(SCALE[lastNote],t,.16+Math.random()*.12,2.6);
+  if(Math.random()<.34){const n2=Math.max(0,Math.min(SCALE.length-1,lastNote+(Math.random()<.5?-1:1)));
+   pluck(SCALE[n2],t+.42,.1,2.2);}
+  if(Math.random()<.18) pluck(SCALE[0]/2,t+.2,.1,3.4);
+ }
+ melTimer=setTimeout(scheduleMelody,1300+Math.random()*1900);
+}
+function startDrone(){
+ const o=AC.createOscillator();o.type="sine";o.frequency.value=65.4;
+ const g=AC.createGain();g.gain.value=.05;
+ const lfo=AC.createOscillator();lfo.frequency.value=.07;
+ const lg=AC.createGain();lg.gain.value=.022;
+ lfo.connect(lg);lg.connect(g.gain);
+ o.connect(g);g.connect(musicBus);o.start();lfo.start();
+}
+function startWind(){
+ const len=2*AC.sampleRate,buf=AC.createBuffer(1,len,AC.sampleRate),d=buf.getChannelData(0);
+ for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+ const src=AC.createBufferSource();src.buffer=buf;src.loop=true;
+ const f=AC.createBiquadFilter();f.type="lowpass";f.frequency.value=330;
+ const g=AC.createGain();g.gain.value=.016;
+ const lfo=AC.createOscillator();lfo.frequency.value=.05;
+ const lg=AC.createGain();lg.gain.value=130;
+ lfo.connect(lg);lg.connect(f.frequency);
+ src.connect(f);f.connect(g);g.connect(musicBus);src.start();lfo.start();
+}
+function bell(){
+ if(!AC||!musicOn)return;const t=AC.currentTime;
+ [523.25,1046.5,1568].forEach((fr,i)=>{
+  const o=AC.createOscillator();o.type="sine";o.frequency.value=fr;
+  const g=AC.createGain();
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.09/(i+1),t+.01);
+  g.gain.exponentialRampToValueAtTime(.0004,t+2.4);
+  o.connect(g);g.connect(sfxBus);o.start(t);o.stop(t+2.5);});
+}
+function duck(on){
+ if(!AC)return;
+ musicBus.gain.setTargetAtTime(on?.14:.5,AC.currentTime,.35);
+}
+
+/* ================= 語音 ================= */
+let zhVoice=null;
+function pickVoice(){
+ if(!("speechSynthesis" in window))return;
+ const vs=speechSynthesis.getVoices();
+ zhVoice=vs.find(v=>/zh[-_](TW|Hant)/i.test(v.lang))
+      ||vs.find(v=>/zh[-_]CN/i.test(v.lang))
+      ||vs.find(v=>/zh/i.test(v.lang))||null;
+}
+if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function speak(text){
+ if(!voiceOn||!("speechSynthesis" in window))return;
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ if(zhVoice)u.voice=zhVoice;
+ u.lang=(zhVoice&&zhVoice.lang)||"zh-TW";
+ u.rate=.95;u.pitch=1;u.volume=1;
+ u.onstart=()=>duck(true);u.onend=()=>duck(false);u.onerror=()=>duck(false);
+ speechSynthesis.speak(u);
+}
+
+/* ================= 播放器 ================= */
+let idx=0,playing=false,pausedFlag=false,advanceTO=null,sceneStart=0,remaining=0,ended=false;
+function dur(s){return Math.max(5600,s.narr.length*345+2400);}
+function showArt(i){
+ back.innerHTML=curStory.art[i];
+ back.classList.add("on");front.classList.remove("on");
+ const t=front;front=back;back=t;
+}
+function showScene(i){
+ idx=Math.max(0,Math.min(curStory.scenes.length-1,i));
+ ended=false;
+ const s=curStory.scenes[idx];
+ showArt(idx);
+ chip.textContent=s.chip;
+ origLine.textContent="「"+s.orig+"」";
+ narrLine.textContent=s.narr;
+ subs.classList.remove("subIn");void subs.offsetWidth;subs.classList.add("subIn");
+ dots.forEach((d,k)=>d.classList.toggle("on",k===idx));
+ progressBar.style.width=((idx)/(curStory.scenes.length-1)*100)+"%";
+ bell();
+}
+function playCurrent(){
+ clearTimeout(advanceTO);
+ const s=curStory.scenes[idx];
+ remaining=dur(s);sceneStart=Date.now();
+ speak(s.narr);
+ advanceTO=setTimeout(()=>{ if(idx<curStory.scenes.length-1){showScene(idx+1);playCurrent();} else finish(); },remaining);
+}
+function finish(){
+ playing=false;pausedFlag=false;ended=true;
+ btnPlay.textContent="▶ 重播";
+ if("speechSynthesis" in window)speechSynthesis.cancel();
+ duck(false);
+ $("endQuote").textContent=curStory.endQuote;
+ $("endPoem").innerHTML=curStory.endPoem;
+ $("endOverlay").classList.remove("hidden");
+}
+function play(){
+ if(ended){$("endOverlay").classList.add("hidden");showScene(0);}
+ playing=true;pausedFlag=false;btnPlay.textContent="⏸ 暫停";
+ if(AC&&AC.state==="suspended")AC.resume();
+ playCurrent();
+}
+function pause(){
+ playing=false;pausedFlag=true;btnPlay.textContent="▶ 播放";
+ clearTimeout(advanceTO);remaining-=Date.now()-sceneStart;
+ if("speechSynthesis" in window)speechSynthesis.pause();
+ if(AC)musicBus.gain.setTargetAtTime(.06,AC.currentTime,.2);
+}
+function resume(){
+ playing=true;pausedFlag=false;btnPlay.textContent="⏸ 暫停";
+ sceneStart=Date.now();
+ if("speechSynthesis" in window)speechSynthesis.resume();
+ if(AC)musicBus.gain.setTargetAtTime(.5,AC.currentTime,.3);
+ advanceTO=setTimeout(()=>{ if(idx<curStory.scenes.length-1){showScene(idx+1);playCurrent();} else finish(); },Math.max(1200,remaining));
+}
+function jump(i){
+ $("endOverlay").classList.add("hidden");ended=false;
+ clearTimeout(advanceTO);
+ if("speechSynthesis" in window){speechSynthesis.cancel();speechSynthesis.resume();}
+ showScene(i);
+ if(playing)playCurrent();
+ else{remaining=dur(curStory.scenes[i]);sceneStart=Date.now();}
+}
+/* ===== 選篇與重置 ===== */
+function stopAll(){
+ clearTimeout(advanceTO);
+ if("speechSynthesis" in window){speechSynthesis.cancel();speechSynthesis.resume();}
+ playing=false;pausedFlag=false;ended=false;
+ btnPlay.textContent="▶ 播放";
+ $("endOverlay").classList.add("hidden");
+ $("modal").classList.remove("show");
+ if(AC)musicBus.gain.setTargetAtTime(musicOn?.5:0,AC.currentTime,.3);
+ duck(false);
+}
+function startStory(i){
+ initAudio();pickVoice();
+ if(AC&&AC.state==="suspended")AC.resume();
+ storyIdx=i;curStory=STORIES[i];
+ $("hdTitle").textContent=curStory.name;
+ $("hdSub").textContent=curStory.source+"・古風動畫說書";
+ scrollTag.textContent=curStory.name;
+ buildDots();
+ $("pickOverlay").classList.add("hidden");
+ playUnroll();
+ showScene(0);play();
+}
+function toPick(){
+ stopAll();
+ $("hdTitle").textContent="古風動畫集";
+ $("hdSub").textContent="清代筆記・動畫說書";
+ scrollTag.textContent="古風動畫集";
+ showScene(0);progressBar.style.width="0%";
+ $("pickOverlay").classList.remove("hidden");
+ playUnroll();
+}
+
+/* ================= 事件綁定 ================= */
+document.querySelectorAll("[data-pick]").forEach(b=>{
+ b.onclick=()=>startStory(parseInt(b.dataset.pick,10));
+});
+btnPlay.onclick=()=>{ if(playing)pause(); else if(pausedFlag)resume(); else play(); };
+$("btnPrev").onclick=()=>jump(idx-1);
+$("btnNext").onclick=()=>jump(idx+1);
+$("btnReplay").onclick=()=>{$("endOverlay").classList.add("hidden");jump(0);play();};
+$("btnPickEnd").onclick=toPick;
+$("btnPickCtl").onclick=toPick;
+$("btnMusic").onclick=function(){
+ musicOn=!musicOn;this.classList.toggle("on",musicOn);
+ if(AC)musicBus.gain.setTargetAtTime(musicOn?.5:0,AC.currentTime,.25);
+};
+$("btnVoice").onclick=function(){
+ voiceOn=!voiceOn;this.classList.toggle("on",voiceOn);
+ if(!voiceOn&&"speechSynthesis" in window){speechSynthesis.cancel();duck(false);}
+ else if(voiceOn&&playing)speak(curStory.scenes[idx].narr);
+};
+$("btnSubs").onclick=function(){
+ document.body.classList.toggle("noSubs");
+ this.classList.toggle("on",!document.body.classList.contains("noSubs"));
+};
+function openModal(){
+ $("mTitle").textContent=curStory.name;
+ $("mOrig").innerText=curStory.modal.orig;
+ $("mTrans").innerText=curStory.modal.trans;
+ $("mIntro").innerText=curStory.modal.intro;
+ $("modal").classList.add("show");
+}
+$("btnText").onclick=openModal;
+$("btnText2").onclick=openModal;
+$("btnCloseModal").onclick=()=>$("modal").classList.remove("show");
+$("modal").onclick=e=>{if(e.target.id==="modal")$("modal").classList.remove("show");};
+window.addEventListener("keydown",e=>{
+ if(e.code==="Space"){e.preventDefault();btnPlay.click();}
+ if(e.code==="ArrowRight")jump(idx+1);
+ if(e.code==="ArrowLeft")jump(idx-1);
+ if(e.code==="Home"){e.preventDefault();toPick();}
+});
+/* 初始 */
+buildDots();
+showScene(0);
+progressBar.style.width="0%";
+</script>
+</body>
+</html>
